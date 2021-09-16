@@ -65,7 +65,7 @@ function lex(){
     }
   }//end for
   // print -> output ->texarea
-  print("NoWhiteSpacce -> " + sourceCodeNoWhiteSpace);
+  //print("NoWhiteSpacce -> " + sourceCodeNoWhiteSpace);
   // console -> show
 //   console.log(sourceCode);
   //return->
