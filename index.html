@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Gamedev Canvas Workshop - lesson 1: create the Canvas and draw on it</title>
-    <style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
-</head>
-<body>
+<!DOCTYPE HTML> 
+<html> 
 
-<canvas id="myCanvas" width="480" height="320"></canvas>
+<div class='nowiki' val=""><font color="purple">
 
-<script>
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
+<body bgcolor="black">
 
-    ctx.beginPath();
-    ctx.rect(20, 40, 50, 50);
-    ctx.fillStyle = "#FF0000";
-    ctx.fill();
-    ctx.closePath();
+<head> 
+    <title>compiler</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+</head> 
+<body> 
+    <h1>compiler proyect</h1> 
+    <div> 
+        <textarea id="Main_Code" cols="45" rows="20"></textarea> 
+        <br> 
+        <input type="button" id="btnCompile" value="RUN" onclick="init();"/> 
+        <br> 
+                COMPILER OUTPUT HERE:
+        <br>  
+        <textarea id="Output" cols="40" rows="20"></textarea> 
+    </div> 
+    </div> 
 
-    ctx.beginPath();
-    ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
+    <script type="text/javascript" src="scripts/utils.js"></script>
+    <script type="text/javascript" src="scripts/lexer.js"></script>	
+    <script type="text/javascript" src="scripts/parser.js"></script>	
+</body> 
+</html> 
 
-    ctx.beginPath();
-    ctx.rect(160, 10, 100, 40);
-    ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-    ctx.stroke();
-    ctx.closePath();
-</script>
-
-</body>
-</html>
