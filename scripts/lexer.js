@@ -3,7 +3,33 @@
  **********************/
 
 var tokens = new Array();
-tokens = "";
+var tokenIndex = 0;
+var errorCount = 0;
+var currentToken = "";
+// tokens = "";
+var EOF = new TokenObject();  //End of File Token Object
+    EOF.Token = "$";
+    EOF.Type = "EOF";
+
+/*****************
+ *      MAIN   
+ ****************/
+
+function init(){
+  print("..........start..........");
+  print(lex());
+  tokens = tokenSorter();
+  console.log(tokens.length);
+  currentToken = ' ';
+  currentToken = getNextToken();
+  console.log("current->ttpe: "+currentToken.Token);
+  console.log("current->token: "+peekAtToken(0).Token);
+  console.log("current->token: "+currentToken.Type);
+  checkToken(currentToken.Type);
+ //   console.log(tokens[0].Token +" -> "+tokens[0].Type);
+//   console.log("next->"+getNextToken().Type);
+//   console.log("peek->"+peekAtToken(3).Token);
+}
 
 function lex(){
   var sourceCode = document.getElementById("Main_Code").value;
@@ -65,7 +91,7 @@ function lex(){
     }
   }//end for
   // print -> output ->texarea
-  //print("NoWhiteSpacce -> " + sourceCodeNoWhiteSpace);
+//   print("NoWhiteSpacce -> " + sourceCodeNoWhiteSpace);
   // console -> show
 //   console.log(sourceCode);
   //return->
@@ -102,9 +128,9 @@ function tokenSorter(){
     newtoken.Token = tokenArray[currtoken];
     newtoken.Type = tipo_token(currtoken);
     sortedTokenArray[currtoken] = newtoken;
-    print(newtoken.Token + " -> " + newtoken.Type);
+//     print(newtoken.Token + " -> " + newtoken.Type);
   }
-  console.log("end-token-sorted");
+//   console.log("end-token-sorted");
   return sortedTokenArray;	
 }
 
@@ -167,7 +193,248 @@ function tipo_token(i){
   }
 }
 
+/********************
+ *   GET->NEXTTOken
+ *******************/
+// Devuelve el objeto
+function getNextToken(){
+  var thisToken = EOF;
+  if(tokenIndex < tokens.length){
+    thisToken = tokens[tokenIndex];
+//     console.log("current token: " + thisToken.Token);
+  }
+  return thisToken;
+}
+
+/**********************
+ *    Peek->at->Token
+ **********************/
+
+function peekAtToken(peekNumber){
+  var thatToken = EOF;
+  if(tokenIndex < tokens.length){
+    thatToken = tokens[tokenIndex+peekNumber];
+  }
+  return thatToken;
+}
+
+/********************
+ *      produciones
+ ********************/
+function finalTokens(){
+  currentToken = getNextToken();
+  
+  lexicalProgram();
+}
+
+
+//*********************
+function lexicalProgram(){
+  parseStatement();
+}
+
+
+/*******************
+ *   CHECK->TOKEN
+ *******************/
+function checkToken(expectedKind){
+  //Check to valiudate that we have the expected type of token	
+  switch(expectedKind){
+    case "digit" : print("Expecting a digit");
+      if(currentToken.Token == "0" || currentToken.Token == "1" || currentToken.Token == "2" || currentToken.Token == "3" ||
+         currentToken.Token == "4" || currentToken.Token == "5" || currentToken.Token == "6" || currentToken.Token == "7" ||
+         currentToken.Token == "8" || currentToken.Token == "9" )
+      {
+        print("Got a digit.");
+      }
+      else{
+        errorCount++;
+	print("Token is not a digit. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+ 
+    //For operations
+    case "op" : print("Expecting an operator");
+      if(currentToken.Token == "+" || currentToken.Token == "-" ){
+	  print("Got an operator.");
+      }
+      else{
+	  errorCount++;
+	  print("Token is not an operator. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+
+
+    //For conditional operations
+    case "condOp" : print("Expecting a conditional operator");
+      if((currentToken.Token == "=" && peekAtToken(0).Token == "=" )){
+	  currentToken = getNextToken();
+	  print("Got a conditional operator.");
+	}
+      else{
+	  errorCount++;
+	  print("Token is not a conditional operator. \nError Position: " + tokenIndex + "." );
+	}
+      break;
+ 
+
+    //For characters	
+    case "char" : print("Expecting a character");
+      if(currentToken.Token == "a" || currentToken.Token == "b" || currentToken.Token == "c" || currentToken.Token == "d" ||
+	  currentToken.Token == "e" || currentToken.Token == "f" || currentToken.Token == "g" || currentToken.Token == "h" ||
+	  currentToken.Token == "i" || currentToken.Token == "j" || currentToken.Token == "k" || currentToken.Token == "l" ||
+	  currentToken.Token == "m" || currentToken.Token == "n" || currentToken.Token == "o" || currentToken.Token == "p" ||
+	  currentToken.Token == "q" || currentToken.Token == "r" || currentToken.Token == "s" || currentToken.Token == "t" ||
+	  currentToken.Token == "u" || currentToken.Token == "v" || currentToken.Token == "w" || currentToken.Token == "x" ||
+	  currentToken.Token == "y" || currentToken.Token == "z" )
+	{
+	  print("Got a character.");
+	}
+	else{
+          errorCount++;
+	  print("Token is not a character. \nError Position: " + tokenIndex + "." );
+	}
+	break;
+ 
+ 
+    //For ids
+    case "id" : print("Expecting an ID");
+      if(currentToken.Token == "a" || currentToken.Token == "b" || currentToken.Token == "c" || currentToken.Token == "d" ||
+	 currentToken.Token == "e" || currentToken.Token == "f" || currentToken.Token == "g" || currentToken.Token == "h" ||
+	 currentToken.Token == "i" || currentToken.Token == "j" || currentToken.Token == "k" || currentToken.Token == "l" ||
+	 currentToken.Token == "m" || currentToken.Token == "n" || currentToken.Token == "o" || currentToken.Token == "p" ||
+	 currentToken.Token == "q" || currentToken.Token == "r" || currentToken.Token == "s" || currentToken.Token == "t" ||
+  	 currentToken.Token == "u" || currentToken.Token == "v" || currentToken.Token == "w" || currentToken.Token == "x" ||
+	 currentToken.Token == "y" || currentToken.Token == "z" )
+	{
+	print("Got an ID.");
+	}
+      else{
+        errorCount++;
+	print("Token is not an ID. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+ 
+ 
+    //For print
+    case "print" : print("Expecting a print");
+      if(currentToken.Token == "p" && peekAtToken(0).Token == "r" && peekAtToken(1).Token == "i" && peekAtToken(2).Token == "n" && peekAtToken(3).Token == "t" ){
+	  print("Got a print.");
+	currentToken = getNextToken();
+	currentToken = getNextToken();
+	currentToken = getNextToken();
+	currentToken = getNextToken();
+	}
+	else{
+          errorCount++;
+	  print("Character Sequence is not a print. \nError Position: " + tokenIndex + "." );
+	}
+	break;
+    //For while
+    case "while" : print("Expecting a while");
+      if(currentToken.Token == "w" && peekAtToken(0).Token == "h" && peekAtToken(1).Token == "i" && peekAtToken(2).Token == "l" && peekAtToken(3).Token == "e" ){
+	  print("Got a while.");
+          currentToken = getNextToken();
+	  currentToken = getNextToken();
+	  currentToken = getNextToken();
+	  currentToken = getNextToken();			    
+      }
+      else{
+	  errorCount++;
+	  print("Character Sequence is not a while. \nError Position: " + tokenIndex + "." );
+	}
+      break;
 
 
 
+    //For if
+    case "if" : print("Expecting an if");
+      if(currentToken.Token == "i" && peekAtToken(0).Token == "f" ){
+        print("Got an if.");
+	currentToken = getNextToken();
+      }
+      else{
+        errorCount++;
+	print("Character Sequence is not an if. \nError Position: " + tokenIndex + "." );
+	}
+      break;
+    //For left parenthesis
+    case "leftParen" : print("Expecting a left parenthesis");
+      if(currentToken.Token == "("){
+	  print("Got a left parenthesis.");
+	}
+      else{
+        errorCount++;
+        print("Token is not a left parenthesis. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+    //For right parenthesis
+    case "rightParen" : print("Expecting a right parenthesis");
+      if(currentToken.Token == ")"){
+	  print("Got a right parenthesis.");
+	}
+      else{
+        errorCount++;
+	print("Token is not a right parenthesis. \nError Position: " + tokenIndex + "." );
+	}
+	break;
+    //For left curly bracket
+    case "leftCurlyBracket" : print("Expecting a left curly bracket");
+      if(currentToken.Token == "{"){
+	  print("Got a left curly bracket.");
+      }
+      else{
+	  errorCount++;
+	  print("Token is not a left curly bracket. \nError Position: " + tokenIndex + "." );
+	}
+      break;
+ 
+ 
+    //For right curly bracket
+    case "rightCurlyBracket" : print("Expecting a right curly bracket");
+      if(currentToken.Token == "}"){
+	  print("Got a right curly bracket.");
+      }
+      else{
+        errorCount++;
+	print("Token is not a right curly bracket. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+ 
+ 
+    //For assignment operator
+    case "assign" : print("Expecting an assignment operator.");
+      if(currentToken.Token == "="){
+        print("Got an assignment operator.");
+      }
+      else{
+        errorCount++;
+        print("Token is not an assignment operator. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+ 
+    //For quotation marks
+    case "quote" : print("Expecting a quotation mark");
+      if(currentToken.Token == "\""){
+	  print("Got a quotation mark.");
+      }
+      else{
+        errorCount++;
+	print("Token is not a quotation mark. \nError Position: " + tokenIndex + "." );
+      }
+      break;
 
+    //For space character
+    case " " : print("Expecting a space character.");
+      if(currentToken.Token == " "){
+	  print("Got a space character.");
+	}
+      else{
+        errorCount++;
+        print("Token is not a space character. \nError Position: " + tokenIndex + "." );
+      }
+      break;
+    }
+  //After checking the current token, consume and asssigne the next token to the current token slot(variable)
+  currentToken = getNextToken();
+}

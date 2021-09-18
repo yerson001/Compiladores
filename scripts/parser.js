@@ -20,6 +20,8 @@ function listOftoken(){
   for(var i=0; i<tokens.length; ++i){
     tokenList[i] = tokens[i].Token;
     tokenListt[i] = tokens[i].Type;
-//     print(tokenList[i] + tokenListt[i].Type + "\n");
+    print(tokenList[i] + tokenListt[i].Type + "\n");
   }
 }
+
+
