@@ -1,6 +1,5 @@
 /* --------  
    Utils.js
-
    Utility functions.
    -------- */
 
@@ -34,3 +33,14 @@ function rot13(str)     // An easy-to understand implementation of the famous an
     return retVal;
 }
 
+
+/*
+fordware(1);
+right(90);
+left(50);
+int a = 0;
+FOR(10){
+}
+if(a==4){
+}
+*/

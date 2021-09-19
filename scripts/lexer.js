@@ -1,7 +1,3 @@
-/**********************
- *       LEXER        
- **********************/
-
 var tokens = new Array();
 var tokenIndex = 0;
 var errorCount = 0;
@@ -20,15 +16,12 @@ function init(){
   print(lex());
   tokens = tokenSorter();
   console.log(tokens.length);
-  currentToken = ' ';
-  currentToken = getNextToken();
-  console.log("current->ttpe: "+currentToken.Token);
-  console.log("current->token: "+peekAtToken(0).Token);
-  console.log("current->token: "+currentToken.Type);
-  checkToken(currentToken.Type);
  //   console.log(tokens[0].Token +" -> "+tokens[0].Type);
 //   console.log("next->"+getNextToken().Type);
 //   console.log("peek->"+peekAtToken(3).Token);
+
+    //finalTokens();
+    ListToken();
 }
 
 function lex(){
@@ -91,11 +84,6 @@ function lex(){
     }
   }//end for
   // print -> output ->texarea
-//   print("NoWhiteSpacce -> " + sourceCodeNoWhiteSpace);
-  // console -> show
-//   console.log(sourceCode);
-  //return->
-//   tokens = tokenSorter();
   return sourceCodeNoWhiteSpace;
 }
 
@@ -121,17 +109,16 @@ function tokenSorter(){
   sortedTokenArray = new Array();
   typeArray = new Array();
   var currtoken = 0;
-
-  //Iterates through the array and specifies the token and the type in a token object and the replaces the token array with token objects
   for (currtoken = 0; currtoken < tokenArray.length; currtoken++){
+
     var newtoken = new TokenObject();
     newtoken.Token = tokenArray[currtoken];
     newtoken.Type = tipo_token(currtoken);
+
     sortedTokenArray[currtoken] = newtoken;
-//     print(newtoken.Token + " -> " + newtoken.Type);
+
   }
-//   console.log("end-token-sorted");
-  return sortedTokenArray;	
+  return sortedTokenArray;  
 }
 
 
@@ -150,7 +137,8 @@ function tipo_token(i){
     tokenArray[i] == "m" || tokenArray[i] == "n" || tokenArray[i] == "o" || tokenArray[i] == "p" ||
     tokenArray[i] == "q" || tokenArray[i] == "r" || tokenArray[i] == "s" || tokenArray[i] == "t" ||
     tokenArray[i] == "u" || tokenArray[i] == "v" || tokenArray[i] == "w" || tokenArray[i] == "x" ||
-    tokenArray[i] == "y" || tokenArray[i] == "z" )
+    tokenArray[i] == "y" || tokenArray[i] == "z" || tokenArray[i] == "F" || tokenArray[i] == "O" ||
+    tokenArray[i] == "R")
     {
       return "char";
     }
@@ -159,18 +147,13 @@ function tipo_token(i){
     return "op";
     }
 
-  if(tokenArray[i] == "P"){
-    return "P";
+  if(tokenArray[i]+tokenArray[i+1]+tokenArray[i+2] == "-90" || tokenArray[i]+tokenArray[i+1] == "90"){
+    return "NUM";
     }
 
-  if(tokenArray[i] == "("){
-    return "leftParen";
+  if(tokenArray[i] == ";"){
+    return "semicolon";
     }
-
-  if(tokenArray[i] == ")"){
-    return "rightParen";
-    }
-
 
   if(tokenArray[i] == "{"){
     return "leftCurlyBracket";
@@ -179,9 +162,19 @@ function tipo_token(i){
   if(tokenArray[i] == "}"){
     return "rightCurlyBracket";
     }
+  if(tokenArray[i] == "("){
+    return "leftDelim";
+    }
+
+  if(tokenArray[i] == "("){
+    return "rightdelim";
+    }
 
   if(tokenArray[i] == "="){
     return "assign";
+    }
+  if(tokenArray[i]+tokenArray[i+1] == "=="){
+    return "assign2";
     }
 
   if(tokenArray[i] == "\""){
@@ -203,6 +196,7 @@ function getNextToken(){
     thisToken = tokens[tokenIndex];
 //     console.log("current token: " + thisToken.Token);
   }
+  tokenIndex++;
   return thisToken;
 }
 
@@ -222,219 +216,216 @@ function peekAtToken(peekNumber){
  *      produciones
  ********************/
 function finalTokens(){
-  currentToken = getNextToken();
-  
-  lexicalProgram();
-}
+  rpt = new Array();
+  var endloop = tokens.length; 
+  var temp = "";
+  var i = 0;
+  var index = 0;
+      
+  while(temp!="END"){
 
-
-//*********************
-function lexicalProgram(){
-  parseStatement();
-}
-
-
-/*******************
- *   CHECK->TOKEN
- *******************/
-function checkToken(expectedKind){
-  //Check to valiudate that we have the expected type of token	
-  switch(expectedKind){
-    case "digit" : print("Expecting a digit");
-      if(currentToken.Token == "0" || currentToken.Token == "1" || currentToken.Token == "2" || currentToken.Token == "3" ||
-         currentToken.Token == "4" || currentToken.Token == "5" || currentToken.Token == "6" || currentToken.Token == "7" ||
-         currentToken.Token == "8" || currentToken.Token == "9" )
-      {
-        print("Got a digit.");
-      }
-      else{
-        errorCount++;
-	print("Token is not a digit. \nError Position: " + tokenIndex + "." );
-      }
-      break;
- 
-    //For operations
-    case "op" : print("Expecting an operator");
-      if(currentToken.Token == "+" || currentToken.Token == "-" ){
-	  print("Got an operator.");
-      }
-      else{
-	  errorCount++;
-	  print("Token is not an operator. \nError Position: " + tokenIndex + "." );
-      }
-      break;
-
-
-    //For conditional operations
-    case "condOp" : print("Expecting a conditional operator");
-      if((currentToken.Token == "=" && peekAtToken(0).Token == "=" )){
-	  currentToken = getNextToken();
-	  print("Got a conditional operator.");
-	}
-      else{
-	  errorCount++;
-	  print("Token is not a conditional operator. \nError Position: " + tokenIndex + "." );
-	}
-      break;
- 
-
-    //For characters	
-    case "char" : print("Expecting a character");
-      if(currentToken.Token == "a" || currentToken.Token == "b" || currentToken.Token == "c" || currentToken.Token == "d" ||
-	  currentToken.Token == "e" || currentToken.Token == "f" || currentToken.Token == "g" || currentToken.Token == "h" ||
-	  currentToken.Token == "i" || currentToken.Token == "j" || currentToken.Token == "k" || currentToken.Token == "l" ||
-	  currentToken.Token == "m" || currentToken.Token == "n" || currentToken.Token == "o" || currentToken.Token == "p" ||
-	  currentToken.Token == "q" || currentToken.Token == "r" || currentToken.Token == "s" || currentToken.Token == "t" ||
-	  currentToken.Token == "u" || currentToken.Token == "v" || currentToken.Token == "w" || currentToken.Token == "x" ||
-	  currentToken.Token == "y" || currentToken.Token == "z" )
-	{
-	  print("Got a character.");
-	}
-	else{
-          errorCount++;
-	  print("Token is not a character. \nError Position: " + tokenIndex + "." );
-	}
-	break;
- 
- 
-    //For ids
-    case "id" : print("Expecting an ID");
-      if(currentToken.Token == "a" || currentToken.Token == "b" || currentToken.Token == "c" || currentToken.Token == "d" ||
-	 currentToken.Token == "e" || currentToken.Token == "f" || currentToken.Token == "g" || currentToken.Token == "h" ||
-	 currentToken.Token == "i" || currentToken.Token == "j" || currentToken.Token == "k" || currentToken.Token == "l" ||
-	 currentToken.Token == "m" || currentToken.Token == "n" || currentToken.Token == "o" || currentToken.Token == "p" ||
-	 currentToken.Token == "q" || currentToken.Token == "r" || currentToken.Token == "s" || currentToken.Token == "t" ||
-  	 currentToken.Token == "u" || currentToken.Token == "v" || currentToken.Token == "w" || currentToken.Token == "x" ||
-	 currentToken.Token == "y" || currentToken.Token == "z" )
-	{
-	print("Got an ID.");
-	}
-      else{
-        errorCount++;
-	print("Token is not an ID. \nError Position: " + tokenIndex + "." );
-      }
-      break;
- 
- 
-    //For print
-    case "print" : print("Expecting a print");
-      if(currentToken.Token == "p" && peekAtToken(0).Token == "r" && peekAtToken(1).Token == "i" && peekAtToken(2).Token == "n" && peekAtToken(3).Token == "t" ){
-	  print("Got a print.");
-	currentToken = getNextToken();
-	currentToken = getNextToken();
-	currentToken = getNextToken();
-	currentToken = getNextToken();
-	}
-	else{
-          errorCount++;
-	  print("Character Sequence is not a print. \nError Position: " + tokenIndex + "." );
-	}
-	break;
-    //For while
-    case "while" : print("Expecting a while");
-      if(currentToken.Token == "w" && peekAtToken(0).Token == "h" && peekAtToken(1).Token == "i" && peekAtToken(2).Token == "l" && peekAtToken(3).Token == "e" ){
-	  print("Got a while.");
-          currentToken = getNextToken();
-	  currentToken = getNextToken();
-	  currentToken = getNextToken();
-	  currentToken = getNextToken();			    
-      }
-      else{
-	  errorCount++;
-	  print("Character Sequence is not a while. \nError Position: " + tokenIndex + "." );
-	}
-      break;
-
-
-
-    //For if
-    case "if" : print("Expecting an if");
-      if(currentToken.Token == "i" && peekAtToken(0).Token == "f" ){
-        print("Got an if.");
-	currentToken = getNextToken();
-      }
-      else{
-        errorCount++;
-	print("Character Sequence is not an if. \nError Position: " + tokenIndex + "." );
-	}
-      break;
-    //For left parenthesis
-    case "leftParen" : print("Expecting a left parenthesis");
-      if(currentToken.Token == "("){
-	  print("Got a left parenthesis.");
-	}
-      else{
-        errorCount++;
-        print("Token is not a left parenthesis. \nError Position: " + tokenIndex + "." );
-      }
-      break;
-    //For right parenthesis
-    case "rightParen" : print("Expecting a right parenthesis");
-      if(currentToken.Token == ")"){
-	  print("Got a right parenthesis.");
-	}
-      else{
-        errorCount++;
-	print("Token is not a right parenthesis. \nError Position: " + tokenIndex + "." );
-	}
-	break;
-    //For left curly bracket
-    case "leftCurlyBracket" : print("Expecting a left curly bracket");
-      if(currentToken.Token == "{"){
-	  print("Got a left curly bracket.");
-      }
-      else{
-	  errorCount++;
-	  print("Token is not a left curly bracket. \nError Position: " + tokenIndex + "." );
-	}
-      break;
- 
- 
-    //For right curly bracket
-    case "rightCurlyBracket" : print("Expecting a right curly bracket");
-      if(currentToken.Token == "}"){
-	  print("Got a right curly bracket.");
-      }
-      else{
-        errorCount++;
-	print("Token is not a right curly bracket. \nError Position: " + tokenIndex + "." );
-      }
-      break;
- 
- 
-    //For assignment operator
-    case "assign" : print("Expecting an assignment operator.");
-      if(currentToken.Token == "="){
-        print("Got an assignment operator.");
-      }
-      else{
-        errorCount++;
-        print("Token is not an assignment operator. \nError Position: " + tokenIndex + "." );
-      }
-      break;
- 
-    //For quotation marks
-    case "quote" : print("Expecting a quotation mark");
-      if(currentToken.Token == "\""){
-	  print("Got a quotation mark.");
-      }
-      else{
-        errorCount++;
-	print("Token is not a quotation mark. \nError Position: " + tokenIndex + "." );
-      }
-      break;
-
-    //For space character
-    case " " : print("Expecting a space character.");
-      if(currentToken.Token == " "){
-	  print("Got a space character.");
-	}
-      else{
-        errorCount++;
-        print("Token is not a space character. \nError Position: " + tokenIndex + "." );
-      }
-      break;
+    temp+=tokens[i].Token;
+    
+    if(temp=="BEGIN"){
+      console.log("detect-> BEGIN");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "BEGIN";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
     }
-  //After checking the current token, consume and asssigne the next token to the current token slot(variable)
-  currentToken = getNextToken();
+
+    else if(temp == "fordware"){
+      console.log("detect-> fordware");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "fordware";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp == "90"){
+      console.log("detect-> 90");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "90";
+      newtoken.Type = "NUM";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp == "-90"){
+      console.log("detect-> 90");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "-90";
+      newtoken.Type = "NUM";
+      rpt[index] = newtoken;
+      index++;
+    }
+
+    else if(temp == "+"){
+      console.log("detect-> SUM");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "+";
+      newtoken.Type = "OP";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp == "-"){
+      console.log("detect-> RES");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "-";
+      newtoken.Type = "OP";
+      rpt[index] = newtoken;
+      index++;
+    }
+
+
+    else if(temp=="int"){
+      console.log("detect-> int");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "int";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="right"){
+      console.log("detect-> rigth");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "rigth";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="left"){
+      console.log("detect-> left");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "left";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="FOR"){
+      console.log("detect-> FOR");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "FOR";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="("){
+      console.log("detect-> (");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "(";
+      newtoken.Type = "DELIM";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp==")"){
+      console.log("detect-> )");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = ")";
+      newtoken.Type = "DELIM";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="{"){
+      console.log("detect-> {");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "{";
+      newtoken.Type = "DELIM";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="}"){
+      console.log("detect-> }");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "}";
+      newtoken.Type = "DELIM";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="if"){
+      console.log("detect-> if");
+      temp = "";
+       var newtoken = new TokenObject();
+      newtoken.Token = "if";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="=="){
+      console.log("detect-> ==");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "==";
+      newtoken.Type = "OP";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="="){
+      console.log("detect-> =");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = "=";
+      newtoken.Type = "OP";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp==";"){
+      console.log("detect-> ;");
+      temp = "";
+      var newtoken = new TokenObject();
+      newtoken.Token = ";";
+      newtoken.Type = "ENDLINE";
+      rpt[index] = newtoken;
+      index++;
+    }
+    else if(temp=="END"){
+      console.log("detect-> end");
+      var newtoken = new TokenObject();
+      newtoken.Token = "END";
+      newtoken.Type = "RESERVED";
+      rpt[index] = newtoken;
+    }
+    i++;
+  }
+
+/*
+BEGIN
+fordware();
+right();
+left();
+int ==
+FOR(){
 }
+if(){
+}
+=
+END
+*/
+  console.log("index "+index);
+  console.log("rpt "+rpt.length);
+  return rpt; 
+}
+
+//fordware
+function ListToken(){
+  ToKens = new Array();
+  ToKens = finalTokens();
+  for(var i=0; i<ToKens.length; ++i){
+    print(i + " "+ToKens[i].Token+" -> "+ToKens[i].Type);
+  }
+}
+
