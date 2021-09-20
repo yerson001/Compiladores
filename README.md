@@ -25,7 +25,7 @@ END
 
 ## programa con errores
 ~~~
-BEGIN
+BEGIN#
 fordware(1r);
 right(90);
 left(92g);
