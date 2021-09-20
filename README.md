@@ -24,7 +24,7 @@ END
 ~~~
 
 ## programa con errores
-### Si no corrige los errores el pograma no podrá continuar
+### Si no corrige los errores, el pograma no podrá continuar
 ~~~
 BEGIN#
 fordware(1r);
