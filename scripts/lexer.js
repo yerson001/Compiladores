@@ -9,14 +9,20 @@ var EOF = new TokenObject();
 /*****************
  *      MAIN   
  ****************/
-
+/*
+La funcion init es la funcion principal que interactú con todos los demas
+*/
 function init(){
-  document.getElementById("Output").value = "";
   print("..........start..........");
   //print(lex());
   tokens = tokenSorter();
   ListToken();
 }
+
+/*
+Esta funcion toma la entrada del codigo y nos devuelve el codigo identificando
+el tipo de caracter como char,int,op,(),{} 
+*/
 
 function lex(){
   var sourceCode = document.getElementById("Main_Code").value;
@@ -81,6 +87,9 @@ function lex(){
   return sourceCodeNoWhiteSpace;
 }
 
+/*
+Esta funcion imprime un texto en la pantalla Output
+*/
 function print(msg){
   document.getElementById("Output").value +=msg +"\n"
 }
@@ -88,6 +97,7 @@ function print(msg){
 /*********************************
  *          TOKEN OBJECT
  ********************************/
+ /*Este es un objeto que contiene el tipo y el token de los caacteres*/
 function TokenObject(){
   this.Token = "";
   this.Type = "";
@@ -98,6 +108,7 @@ function TokenObject(){
  ***************************/
 
 //TOKEN SORTER FUNCTION - stes the token object type.
+/*Esta funcion adjunta el caracter con el token*/
 function tokenSorter(){
   tokenArray = lex();
   sortedTokenArray = new Array();
@@ -198,7 +209,7 @@ function tipo_token(i){
 /********************
  *   GET->NEXTTOken
  *******************/
-// Devuelve el objeto
+// Devuelve el objeto siguiente
 function getNextToken(){
   var thisToken = EOF;
   if(tokenIndex < tokens.length){
@@ -224,6 +235,11 @@ function peekAtToken(peekNumber){
 /********************
  *      produciones
  ********************/
+ /**************
+  *  se hace el analisis de la entrada 
+  *  consumiendo caacter a caaracter y fomar los token fianales
+  * que al final lo devuelve en una arreglo
+  * ************/
 function finalTokens(){
   rpt = new Array();
   var endloop = tokens.length; 
@@ -244,7 +260,8 @@ function finalTokens(){
   }
 
 
-
+/*ciclo para el análisis de la entada
+*/
   while(temp!="END"){
     //BEGverEND();
     temp+=tokens[i].Token;  
@@ -477,6 +494,11 @@ function finalTokens(){
   return rpt; 
 }
 
+/*
+mostrar la lista de token que se obtuvieron
+al ejecuta el programa
+*/
+
 function ListToken(){
   print("\n ListToken\n");
   ToKens = new Array();
@@ -486,6 +508,9 @@ function ListToken(){
   }
 }
 
+/*
+funcion pa verificar si es una vaiable de tipo estero o no
+*/
 
 function IsNumber(numero){
   if(Number.isInteger(numero)) {
@@ -494,18 +519,3 @@ function IsNumber(numero){
   }
   return false;
 }
-
-
-/*
-BEGIN
-fordware(50);
-right(90);
-left(90);
-inte d = 0; 
-FOR(i:10){
-  if(d==i){
-    d=10;
- }
-}
-END
-*/
