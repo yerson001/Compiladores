@@ -29,7 +29,7 @@ END
 BEGIN#
 fordware(1r);
 right(90);
-left(92g);
+left(92);
 int d = 0; 
 FOR(i:ty){
   if(d==i){
