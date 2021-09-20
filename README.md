@@ -6,17 +6,17 @@
 ## programa sin errores
 ~~~
 BEGIN
-fordware(ty);
+fordware(10);
 right(90);
 left(90);
 int d = 0; 
-FOR(i:45d){
+FOR(i:5){
   if(d==i){
-    fordware(50);
+    fordware(5);
     left(90);
  }
 }
-fordware(50);
+fordware(3);
 right(90);
 END
 ~~~
