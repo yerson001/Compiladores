@@ -12,7 +12,7 @@ var EOF = new TokenObject();
 
 function init(){
   print("..........start..........");
-  print(lex());
+  //print(lex());
   tokens = tokenSorter();
   ListToken();
 }
@@ -134,8 +134,13 @@ function tipo_token(i){
     tokenArray[i] == "m" || tokenArray[i] == "n" || tokenArray[i] == "o" || tokenArray[i] == "p" ||
     tokenArray[i] == "q" || tokenArray[i] == "r" || tokenArray[i] == "s" || tokenArray[i] == "t" ||
     tokenArray[i] == "u" || tokenArray[i] == "v" || tokenArray[i] == "w" || tokenArray[i] == "x" ||
-    tokenArray[i] == "y" || tokenArray[i] == "z" || tokenArray[i] == "F" || tokenArray[i] == "O" ||
-    tokenArray[i] == "R")
+    tokenArray[i] == "y" || tokenArray[i] == "z" || tokenArray[i] == "A" || tokenArray[i] == "B" ||
+    tokenArray[i] == "C" || tokenArray[i] == "D" || tokenArray[i] == "E" || tokenArray[i] == "F" || 
+    tokenArray[i] == "G" || tokenArray[i] == "H" || tokenArray[i] == "I" || tokenArray[i] == "J" || 
+    tokenArray[i] == "K" || tokenArray[i] == "L" || tokenArray[i] == "M" || tokenArray[i] == "N" || 
+    tokenArray[i] == "O" || tokenArray[i] == "P" || tokenArray[i] == "Q" || tokenArray[i] == "R" ||
+    tokenArray[i] == "S" || tokenArray[i] == "T" || tokenArray[i] == "U" || tokenArray[i] == "V" || 
+    tokenArray[i] == "W" || tokenArray[i] == "X" || tokenArray[i] == "Y" || tokenArray[i] == "Z" )
     {
       return "char";
     }
@@ -163,7 +168,7 @@ function tipo_token(i){
     return "leftDelim";
     }
 
-  if(tokenArray[i] == "("){
+  if(tokenArray[i] == ")"){
     return "rightdelim";
     }
 
@@ -180,6 +185,12 @@ function tipo_token(i){
 
   if(tokenArray[i] == " "){
     return "space";
+  }
+  if(tokenArray[i] == ":"){
+    return "points";
+  }
+  else{
+    print("Error!! caracter no valido: " + tokenArray[i]);
   }
 }
 
@@ -213,6 +224,11 @@ function peekAtToken(peekNumber){
  *      produciones
  ********************/
 function finalTokens(){
+  rpt = new Array();
+  var endloop = tokens.length; 
+  var temp = "";
+  var i = 0;
+  var index = 0;
 
   function add(token,type){
     var newtoken = new TokenObject();
@@ -222,13 +238,14 @@ function finalTokens(){
     index++;
   }
 
-  rpt = new Array();
-  var endloop = tokens.length; 
-  var temp = "";
-  var i = 0;
-  var index = 0;
+  function BEGverEND(){
+    console.log(getNextToken());
+  }
+
+
 
   while(temp!="END"){
+    //BEGverEND();
     temp+=tokens[i].Token;  
     if(temp=="int"){
       console.log("detect-> int");
@@ -293,14 +310,54 @@ function finalTokens(){
       console.log("detect-> FOR");
       temp = "";
       add("FOR","RESERVED");
+       
     }
     //_---------------------numero en parentesis--------------------
     else if(temp=="("){
       console.log("detect-> ( " + tokens[i-1].Token );
       temp = "";
       add("(","DELIM");
+      if(tokens[i-1].Token=="R"){
+        console.log("FOR--->detectado");
+         var secuense = "";
+        var numero = "";
+        var j=i+1;
+        while(secuense!=")"){
+          //console.log(tokens[j].Token);
+          secuense = tokens[j].Token;
+          numero+=secuense;
+          j++;
+        }
+
+        //console.log("número ___________________delfor: "+numero.substring(0,numero.length-1));
+      //*************************************************
+        if(numero.search(":")){
+          var iterador = numero.substring(0,numero.search(":"));
+          //console.log("ITERADOR_xxxxxxxxxxxxxxxx_____"+iterador);
+    
+        add(iterador,"ID");
+
+        add(":","OP");
+
+        var value =  numero.substring(numero.search(":")+1,numero.length-1);
+        //console.log("avlirooooo__xxxxxxxxxxxxxxxxxxxx____"+value);
+        add(value,"NUM");
+        if(!isNaN(value)){
+          console.log("IS number"+numero.substring(0,numero.length-1));
+          //add(numero.substring(0,numero.length-1),"NUM");
+        }else{
+          print("Error!! Valor FOR no valido: " + numero.substring(0,numero.length-1));
+          break;
+      }
+    }
+
+        var jump = numero.substring(0,numero.length-1).length;
+        i+=jump;
+//**********************************
+      }
       //----------------------delimitador------------------------
-      if(tokens[i-1].Token!="f"){
+      else if(tokens[i-1].Token!="f" && tokens[i-1].Token!="R" && tokens[i-1].Token!="("){
+        //console.log("_______________________________DIFEREBTE_________________"+tokens[i-1].Token);
         var secuense = "";
         var numero = "";
         var j=i+1;
@@ -310,10 +367,25 @@ function finalTokens(){
           numero+=secuense;
           j++;
         }
-        console.log("numero : "+numero.substring(0,numero.length-1));
-        add(numero.substring(0,numero.length-1),"NUM");
+
+        console.log("número : "+numero.substring(0,numero.length-1));
+
+
+
+        if(!isNaN(numero.substring(0,numero.length-1))){
+          console.log("IS number"+numero.substring(0,numero.length-1));
+          //add(numero.substring(0,numero.length-1),"NUM");
+        }else{
+          print("Error!! Valor Int no valido: " + numero.substring(0,numero.length-1));
+          break;
+        }
+        if(numero.length!=0){
+          add(numero.substring(0,numero.length-1),"NUM");  
+        }
+        
         var jump = numero.substring(0,numero.length-1).length;
         i+=jump;
+
       }else{
         //----------------------prentesis del if (con una condicion)----------------------
         var secuense = "";
@@ -376,6 +448,13 @@ function finalTokens(){
         j++;
       }
       console.log("numero : "+numero.substring(0,numero.length-1));
+
+        if(!isNaN(numero.substring(0,numero.length-1))){
+          console.log("IS number "+numero.substring(0,numero.length-1));
+        }else{
+          print("Error!! Valor Int no valido: " + numero.substring(0,numero.length-1));
+        }
+
       add(numero.substring(0,numero.length-1),"NUM");
       var jump = numero.substring(0,numero.length-1).length;
       i+=jump;
@@ -407,15 +486,25 @@ function ListToken(){
 }
 
 
+function IsNumber(numero){
+  if(Number.isInteger(numero)) {
+    console.log('La variable es entera');
+    return true;
+  }
+  return false;
+}
+
+
 /*
 BEGIN
 fordware(50);
 right(90);
 left(90);
-int d = 6; 
-FOR(23){
-}
-if(a==b){
+inte d = 0; 
+FOR(i:10){
+  if(d==i){
+    d=10;
+ }
 }
 END
 */
