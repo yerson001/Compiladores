@@ -1,5 +1,6 @@
 /* --------  
    Utils.js
+
    Utility functions.
    -------- */
 
@@ -8,39 +9,24 @@ function trim(str)      // Use a regular expression to remove leading and traili
     return str.replace(/^\s+ | \s+$/g, "");	
 }
 
-function rot13(str)     // An easy-to understand implementation of the famous and common Rot13 obfuscator.
-{                       // You can do this in three lines with a complex regular experssion, but I'd have
-    var retVal = "";    // trouble explaining it in the future.  There's a lot to be said for obvious code.
-    for (var i in str)
-    {
-        var ch = str[i];
-        var code = 0;
-        if ("abcedfghijklmABCDEFGHIJKLM".indexOf(ch) >= 0)
-        {            
-            code = str.charCodeAt(i) + 13;  // It's okay to use 13.  It's not a magic number, it's called rot13.
-            retVal = retVal + String.fromCharCode(code);
-        }
-        else if ("nopqrstuvwxyzNOPQRSTUVWXYZ".indexOf(ch) >= 0)
-        {
-            code = str.charCodeAt(i) - 13;  // It's okay to use 13.  See above.
-            retVal = retVal + String.fromCharCode(code);
-        }
-        else
-        {
-            retVal = retVal + ch;
-        }
-    }
-    return retVal;
+function update(){
+let line=1
+let text=document.querySelector("#Main_Code").value
+ document.querySelector(".line").innerHTML=" "
+ text.split("\n").map(()=>{//aquí rompo el texto y recorro para ir añadiendo el numero
+  document.querySelector(".line").innerHTML+="<p>"+line+"</p>"
+  line++
+})
 }
+window.onload=()=>{
+  let editor=document.querySelector(".editor")
+  let text=document.querySelector("#Main_Code")
+  let line=document.querySelector(".line")
+  //agrego un evento de scroll para mover ambos scroll al tiempo (el del editor y el del textarea)
+    document.querySelector("#Main_Code").addEventListener("scroll",()=>{   
+      let k=editor.scrollHeight/text.scrollHeight //usando proporción para mover simultáneamente ambos scrolls
+      editor.scrollTop=text.scrollTop*k
 
-
-/*
-fordware(1);
-right(90);
-left(50);
-int a = 0;
-FOR(10){
+    })
+ 
 }
-if(a==4){
-}
-*/

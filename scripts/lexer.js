@@ -2,8 +2,7 @@ var tokens = new Array();
 var tokenIndex = 0;
 var errorCount = 0;
 var currentToken = "";
-// tokens = "";
-var EOF = new TokenObject();  //End of File Token Object
+var EOF = new TokenObject();
     EOF.Token = "$";
     EOF.Type = "EOF";
 
@@ -15,13 +14,7 @@ function init(){
   print("..........start..........");
   print(lex());
   tokens = tokenSorter();
-  console.log(tokens.length);
- //   console.log(tokens[0].Token +" -> "+tokens[0].Type);
-//   console.log("next->"+getNextToken().Type);
-//   console.log("peek->"+peekAtToken(3).Token);
-
-    //finalTokens();
-    ListToken();
+  ListToken();
 }
 
 function lex(){
@@ -115,9 +108,13 @@ function tokenSorter(){
     newtoken.Token = tokenArray[currtoken];
     newtoken.Type = tipo_token(currtoken);
 
+    //console.log( newtoken.Token + " --------->"+  newtoken.Type);
+
     sortedTokenArray[currtoken] = newtoken;
 
   }
+  //var res = tipo_token(23);
+  //console.log(res);
   return sortedTokenArray;  
 }
 
@@ -216,181 +213,177 @@ function peekAtToken(peekNumber){
  *      produciones
  ********************/
 function finalTokens(){
+
+  function add(token,type){
+    var newtoken = new TokenObject();
+    newtoken.Token = token;
+    newtoken.Type = type;
+    rpt[index] = newtoken;
+    index++;
+  }
+
   rpt = new Array();
   var endloop = tokens.length; 
   var temp = "";
   var i = 0;
   var index = 0;
-      
-  while(temp!="END"){
 
-    temp+=tokens[i].Token;
-    
-    if(temp=="BEGIN"){
+  while(temp!="END"){
+    temp+=tokens[i].Token;  
+    if(temp=="int"){
+      console.log("detect-> int");
+      temp = "";
+      add("int","RESERVED");
+      var secuense = "";
+      var variable = "";
+      var j=i+1;
+      while(secuense!="="){
+        secuense = tokens[j].Token;
+        variable+=secuense;
+        j++;
+      }
+      console.log("variable : "+variable.substring(0,variable.length-1));
+      add(variable.substring(0,variable.length-1),"ID");
+      var jump = variable.substring(0,variable.length-1).length;
+      i+=jump;
+    }
+    else if(temp=="BEGIN"){
       console.log("detect-> BEGIN");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "BEGIN";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("BEGIN","RESERVED");
     }
 
     else if(temp == "fordware"){
       console.log("detect-> fordware");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "fordware";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("fordware","RESERVED");
     }
     else if(temp == "90"){
       console.log("detect-> 90");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "90";
-      newtoken.Type = "NUM";
-      rpt[index] = newtoken;
-      index++;
+      add("90","NUM");
     }
     else if(temp == "-90"){
-      console.log("detect-> 90");
+      console.log("detect-> -90");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "-90";
-      newtoken.Type = "NUM";
-      rpt[index] = newtoken;
-      index++;
+      add("-90","NUM");
     }
 
     else if(temp == "+"){
       console.log("detect-> SUM");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "+";
-      newtoken.Type = "OP";
-      rpt[index] = newtoken;
-      index++;
+      add("+","OP");
     }
     else if(temp == "-"){
       console.log("detect-> RES");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "-";
-      newtoken.Type = "OP";
-      rpt[index] = newtoken;
-      index++;
-    }
-
-
-    else if(temp=="int"){
-      console.log("detect-> int");
-      temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "int";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("-","OP");
     }
     else if(temp=="right"){
       console.log("detect-> rigth");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "rigth";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("rigth","RESERVED");
     }
     else if(temp=="left"){
       console.log("detect-> left");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "left";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("left","RESERVED");
     }
     else if(temp=="FOR"){
       console.log("detect-> FOR");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "FOR";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("FOR","RESERVED");
     }
+    //_---------------------numero en parentesis--------------------
     else if(temp=="("){
-      console.log("detect-> (");
+      console.log("detect-> ( " + tokens[i-1].Token );
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "(";
-      newtoken.Type = "DELIM";
-      rpt[index] = newtoken;
-      index++;
+      add("(","DELIM");
+      //----------------------delimitador------------------------
+      if(tokens[i-1].Token!="f"){
+        var secuense = "";
+        var numero = "";
+        var j=i+1;
+        while(secuense!=")"){
+          //console.log(tokens[j].Token);
+          secuense = tokens[j].Token;
+          numero+=secuense;
+          j++;
+        }
+        console.log("numero : "+numero.substring(0,numero.length-1));
+        add(numero.substring(0,numero.length-1),"NUM");
+        var jump = numero.substring(0,numero.length-1).length;
+        i+=jump;
+      }else{
+        //----------------------prentesis del if (con una condicion)----------------------
+        var secuense = "";
+        var value = "";
+        var j=i+1;
+        while(secuense!=")"){
+          secuense = tokens[j].Token;
+          value+=secuense;
+          j++;
+        }
+        var str = value.substring(0,value.length-1)+")";
+        var n = str.search("==");
+        var firtValue = str.substring(0,n);
+        var secondValue = str.substring(n+2,str.length-1);
+        add(firtValue,"ID");
+        add("==","OP");
+        add(secondValue,"ID");
+        i+=str.length-1;
+      }
     }
     else if(temp==")"){
       console.log("detect-> )");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = ")";
-      newtoken.Type = "DELIM";
-      rpt[index] = newtoken;
-      index++;
+      add(")","DELIM");
     }
+
+    // ----------------------end numeros en parentesis----------------
     else if(temp=="{"){
       console.log("detect-> {");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "{";
-      newtoken.Type = "DELIM";
-      rpt[index] = newtoken;
-      index++;
+      add("{","DELIM");
     }
     else if(temp=="}"){
       console.log("detect-> }");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "}";
-      newtoken.Type = "DELIM";
-      rpt[index] = newtoken;
-      index++;
+       add("}","DELIM");
     }
     else if(temp=="if"){
       console.log("detect-> if");
       temp = "";
-       var newtoken = new TokenObject();
-      newtoken.Token = "if";
-      newtoken.Type = "RESERVED";
-      rpt[index] = newtoken;
-      index++;
+      add("if","RESERVED");
+
     }
+    //-----------------------------------------------------------------
     else if(temp=="=="){
       console.log("detect-> ==");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "==";
-      newtoken.Type = "OP";
-      rpt[index] = newtoken;
-      index++;
+     add("==","OP");
     }
     else if(temp=="="){
       console.log("detect-> =");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = "=";
-      newtoken.Type = "OP";
-      rpt[index] = newtoken;
-      index++;
+      add("=","OP");
+      var secuense = "";
+      var numero = "";
+      var j=i+1;
+      while(secuense!=";"){
+        secuense = tokens[j].Token;
+        numero+=secuense;
+        j++;
+      }
+      console.log("numero : "+numero.substring(0,numero.length-1));
+      add(numero.substring(0,numero.length-1),"NUM");
+      var jump = numero.substring(0,numero.length-1).length;
+      i+=jump;
     }
     else if(temp==";"){
       console.log("detect-> ;");
       temp = "";
-      var newtoken = new TokenObject();
-      newtoken.Token = ";";
-      newtoken.Type = "ENDLINE";
-      rpt[index] = newtoken;
-      index++;
+       add(";","ENDLINE");
     }
     else if(temp=="END"){
       console.log("detect-> end");
@@ -401,27 +394,11 @@ function finalTokens(){
     }
     i++;
   }
-
-/*
-BEGIN
-fordware();
-right();
-left();
-int ==
-FOR(){
-}
-if(){
-}
-=
-END
-*/
-  console.log("index "+index);
-  console.log("rpt "+rpt.length);
   return rpt; 
 }
 
-//fordware
 function ListToken(){
+  print("\n ListToken\n");
   ToKens = new Array();
   ToKens = finalTokens();
   for(var i=0; i<ToKens.length; ++i){
@@ -429,3 +406,16 @@ function ListToken(){
   }
 }
 
+
+/*
+BEGIN
+fordware(50);
+right(90);
+left(90);
+int d = 6; 
+FOR(23){
+}
+if(a==b){
+}
+END
+*/
