@@ -11,7 +11,7 @@ var EOF = new TokenObject();
  ****************/
 
 function init(){
-  document.getElementById("stOutput").value = "";
+  document.getElementById("Output").value = "";
   print("..........start..........");
   //print(lex());
   tokens = tokenSorter();
