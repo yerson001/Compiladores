@@ -258,13 +258,18 @@ function finalTokens(){
   function BEGverEND(){
     console.log(getNextToken());
   }
+ var linea = 0;
 
 
+  function integer(){
+
+  }
 /*ciclo para el análisis de la entada
 */
-  while(temp!="END"){
+  while(temp!="END" && tokens[i]){
     //BEGverEND();
     temp+=tokens[i].Token;  
+
     if(temp=="int"){
       console.log("detect-> int");
       temp = "";
@@ -283,7 +288,8 @@ function finalTokens(){
       i+=jump;
     }
     else if(temp=="BEGIN"){
-      console.log("detect-> BEGIN");
+      linea+=1;
+      console.log("detect-> BEGIN and linea = " + linea);
       temp = "";
       add("BEGIN","RESERVED");
     }
@@ -420,7 +426,12 @@ function finalTokens(){
         var secondValue = str.substring(n+2,str.length-1);
         add(firtValue,"ID");
         add("==","OP");
-        add(secondValue,"ID");
+        console.log("this-> second value: "+IsNumber(secondValue));
+        if(!isNaN(secondValue)){
+          add(secondValue,"NUM");
+        }else{
+          add(secondValue,"ID");
+        }
         i+=str.length-1;
       }
     }
@@ -488,7 +499,9 @@ function finalTokens(){
       newtoken.Token = "END";
       newtoken.Type = "RESERVED";
       rpt[index] = newtoken;
+      print("SIN ERRORES");
     }
+//     console.log(temp)
     i++;
   }
   return rpt; 
@@ -519,3 +532,4 @@ function IsNumber(numero){
   }
   return false;
 }
+
