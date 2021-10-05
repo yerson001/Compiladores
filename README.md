@@ -2,7 +2,7 @@
 
 ![imh](https://github.com/yerson001/Compiladores/blob/main/img/Selecci%C3%B3n_003.png)
 
-## Click aqui [DEMO](https://yerson001.github.io/Compiladores/index.html) 
+## Click aqui [DEMO](https://yerson001.github.io/LPgame/) 
 
 ## Click aqui [DOCUMENTO](https://docs.google.com/document/d/1EuZJ3zqq2_AnlcOfuZDhbMw45RhlynwMO6vKFlFqOqc/edit?usp=sharing)
 ## programa sin errores
