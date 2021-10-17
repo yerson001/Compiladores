@@ -1,6 +1,6 @@
-/*******************
- *      Parser  LL1
- ******************/
+/*************************************
+ *      Parser  LL1 revisar esto
+ **************************************/
 
 /**
  * LL(1) parser. Building parsing table, part 1: First and Follow sets.
