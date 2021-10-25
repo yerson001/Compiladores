@@ -7,7 +7,6 @@
 ## Click aqui [DOCUMENTO](https://docs.google.com/document/d/1EuZJ3zqq2_AnlcOfuZDhbMw45RhlynwMO6vKFlFqOqc/edit?usp=sharing)
 ## programa sin errores
 ~~~
-BEGIN
 fordware(10);
 right(90);
 left(90);
@@ -20,13 +19,12 @@ FOR(i:5){
 }
 fordware(3);
 right(90);
-END
 ~~~
 
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
 ~~~
-BEGIN#
+#
 fordware(1r);
 right(90);
 left(92);
@@ -39,5 +37,4 @@ FOR(i:ty){
 }
 fordware(3);
 right(90);
-END
 ~~~
