@@ -11,7 +11,7 @@ fordware(10);
 right(90);
 left(90);
 int d = 0; 
-FOR(i:5){
+FOR(5){
   if(d==i){
     fordware(5);
     left(90);
@@ -29,7 +29,7 @@ fordware(1r);
 right(90);
 left(92);
 int d = 0; 
-FOR(i:ty){
+FOR(y){
   if(d==i){
     fordware(5);
     left(90);
