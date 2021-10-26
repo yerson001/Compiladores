@@ -38,3 +38,21 @@ FOR(y){
 fordware(3);
 right(90);
 ~~~
+
+## Gramática
+~~~
+S->A
+A->W(N);
+A->O(I:N){A}
+A->C(I==I){A}
+W->L
+W->F
+W->R
+L->l
+F->f
+O->o
+R->r
+N->n
+I->i
+C->c
+~~~
