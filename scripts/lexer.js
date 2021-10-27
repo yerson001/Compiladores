@@ -6,22 +6,28 @@ var EOF = new TokenObject();
     EOF.Token = "$";
     EOF.Type = "EOF";
 
+var token_traducer = new TokenObject();
+// varible global para el code traducido
+var traducerCode="";
 /*****************
- *      MAIN   
+ *      MAIN
  ****************/
 /*
 La funcion init es la funcion principal que interactú con todos los demas
 */
 function init(){
-  print("..........start..........");
+  print("..........start-traducir..........");
   //print(lex());
   tokens = tokenSorter();
   ListToken();
+ //------parser--program
+  var text = "o(i:n){l(n);}";
+  startUp(grammar, text);
 }
 
 /*
 Esta funcion toma la entrada del codigo y nos devuelve el codigo identificando
-el tipo de caracter como char,int,op,(),{} 
+el tipo de caracter como char,int,op,(),{}
 */
 
 function lex(){
@@ -104,7 +110,7 @@ function TokenObject(){
 }
 
 /***************************
- *    SORTER FUNCTION 
+ *    SORTER FUNCTION
  ***************************/
 
 //TOKEN SORTER FUNCTION - stes the token object type.
@@ -127,7 +133,7 @@ function tokenSorter(){
   }
   //var res = tipo_token(23);
   //console.log(res);
-  return sortedTokenArray;  
+  return sortedTokenArray;
 }
 
 
@@ -147,11 +153,11 @@ function tipo_token(i){
     tokenArray[i] == "q" || tokenArray[i] == "r" || tokenArray[i] == "s" || tokenArray[i] == "t" ||
     tokenArray[i] == "u" || tokenArray[i] == "v" || tokenArray[i] == "w" || tokenArray[i] == "x" ||
     tokenArray[i] == "y" || tokenArray[i] == "z" || tokenArray[i] == "A" || tokenArray[i] == "B" ||
-    tokenArray[i] == "C" || tokenArray[i] == "D" || tokenArray[i] == "E" || tokenArray[i] == "F" || 
-    tokenArray[i] == "G" || tokenArray[i] == "H" || tokenArray[i] == "I" || tokenArray[i] == "J" || 
-    tokenArray[i] == "K" || tokenArray[i] == "L" || tokenArray[i] == "M" || tokenArray[i] == "N" || 
+    tokenArray[i] == "C" || tokenArray[i] == "D" || tokenArray[i] == "E" || tokenArray[i] == "F" ||
+    tokenArray[i] == "G" || tokenArray[i] == "H" || tokenArray[i] == "I" || tokenArray[i] == "J" ||
+    tokenArray[i] == "K" || tokenArray[i] == "L" || tokenArray[i] == "M" || tokenArray[i] == "N" ||
     tokenArray[i] == "O" || tokenArray[i] == "P" || tokenArray[i] == "Q" || tokenArray[i] == "R" ||
-    tokenArray[i] == "S" || tokenArray[i] == "T" || tokenArray[i] == "U" || tokenArray[i] == "V" || 
+    tokenArray[i] == "S" || tokenArray[i] == "T" || tokenArray[i] == "U" || tokenArray[i] == "V" ||
     tokenArray[i] == "W" || tokenArray[i] == "X" || tokenArray[i] == "Y" || tokenArray[i] == "Z" )
     {
       return "char";
@@ -236,23 +242,29 @@ function peekAtToken(peekNumber){
  *      produciones
  ********************/
  /**************
-  *  se hace el analisis de la entrada 
+  *  se hace el analisis de la entrada
   *  consumiendo caacter a caaracter y fomar los token fianales
   * que al final lo devuelve en una arreglo
   * ************/
 function finalTokens(){
   rpt = new Array();
-  var endloop = tokens.length; 
+
+  var endloop = tokens.length;
   var temp = "";
   var i = 0;
   var index = 0;
 
-  function add(token,type){
+  function add(token,type,t_token){
     var newtoken = new TokenObject();
     newtoken.Token = token;
     newtoken.Type = type;
     rpt[index] = newtoken;
-    index++;
+
+   var t_newtoken = new TokenObject();
+   t_newtoken.Token = t_token;
+   t_newtoken.Type = type;
+   token_traducer[index] = t_newtoken;
+   index++;
   }
 
   function BEGverEND(){
@@ -268,12 +280,14 @@ function finalTokens(){
 */
   while(temp!="END" && tokens[i]){
     //BEGverEND();
-    temp+=tokens[i].Token;  
-
+    temp+=tokens[i].Token;
+/******************************************
+                DETECTAR  INT
+ *****************************************/
     if(temp=="int"){
       console.log("detect-> int");
       temp = "";
-      add("int","RESERVED");
+      add("int","RESERVED","y");
       var secuense = "";
       var variable = "";
       var j=i+1;
@@ -283,64 +297,93 @@ function finalTokens(){
         j++;
       }
       console.log("variable : "+variable.substring(0,variable.length-1));
-      add(variable.substring(0,variable.length-1),"ID");
+      add(variable.substring(0,variable.length-1),"ID","v");
       var jump = variable.substring(0,variable.length-1).length;
       i+=jump;
     }
+    /******************************************
+                DETECTAR BEGIN
+     *****************************************/
     else if(temp=="BEGIN"){
       linea+=1;
       console.log("detect-> BEGIN and linea = " + linea);
       temp = "";
-      add("BEGIN","RESERVED");
+      add("BEGIN","RESERVED","1");
     }
-
+    /******************************************
+                DETECTAR FORDWARE
+     *****************************************/
     else if(temp == "fordware"){
       console.log("detect-> fordware");
       temp = "";
-      add("fordware","RESERVED");
+      add("fordware","RESERVED","f");
     }
+    /******************************************
+                     DETECTAR N-->90
+    *****************************************/
     else if(temp == "90"){
       console.log("detect-> 90");
       temp = "";
-      add("90","NUM");
+      add("90","NUM","n");
     }
+    /******************************************
+                    DETECTAR N->-90
+    *****************************************/
     else if(temp == "-90"){
       console.log("detect-> -90");
       temp = "";
-      add("-90","NUM");
+      add("-90","NUM","n");
     }
-
+    /****************************************
+                  DETECTAR SUM  -> +
+    *****************************************/
     else if(temp == "+"){
       console.log("detect-> SUM");
       temp = "";
-      add("+","OP");
+      add("+","OP","+");
     }
+     /****************************************
+                      DETECTAR SUM  -> -
+     *****************************************/
     else if(temp == "-"){
       console.log("detect-> RES");
       temp = "";
-      add("-","OP");
+      add("-","OP","-");
     }
+     /****************************************
+                      DETECTAR  -> rigth
+     *****************************************/
     else if(temp=="right"){
       console.log("detect-> rigth");
       temp = "";
-      add("rigth","RESERVED");
+      add("rigth","RESERVED","r");
     }
+     /****************************************
+                      DETECTAR   -> left
+     *****************************************/
     else if(temp=="left"){
       console.log("detect-> left");
       temp = "";
-      add("left","RESERVED");
+      add("left","RESERVED","l");
     }
+     /****************************************
+                      DETECTAR SUM  -> FOR
+     *****************************************/
     else if(temp=="FOR"){
       console.log("detect-> FOR");
       temp = "";
-      add("FOR","RESERVED");
-       
+      add("FOR","RESERVED","o");
+
     }
-    //_---------------------numero en parentesis--------------------
+   /*******************************************
+                    DETECTAR PARENTESIS
+   *******************************************/
+    //_-----------PARENTESIS EN NUMERO --------------------
     else if(temp=="("){
       console.log("detect-> ( " + tokens[i-1].Token );
       temp = "";
-      add("(","DELIM");
+      add("(","DELIM","(");
+      // --------PRENTESIS EN FOR-----------
       if(tokens[i-1].Token=="R"){
         console.log("FOR--->detectado");
          var secuense = "";
@@ -353,19 +396,18 @@ function finalTokens(){
           j++;
         }
 
-        //console.log("número ___________________delfor: "+numero.substring(0,numero.length-1));
-      //*************************************************
+      //*********DOS-PUNTOS-FOR**************
         if(numero.search(":")){
           var iterador = numero.substring(0,numero.search(":"));
           //console.log("ITERADOR_xxxxxxxxxxxxxxxx_____"+iterador);
-    
-        add(iterador,"ID");
 
-        add(":","OP");
+        add(iterador,"ID","i");
+
+        add(":","OP",":");
 
         var value =  numero.substring(numero.search(":")+1,numero.length-1);
         //console.log("avlirooooo__xxxxxxxxxxxxxxxxxxxx____"+value);
-        add(value,"NUM");
+        add(value,"NUM","n");
         if(!isNaN(value)){
           console.log("IS number"+numero.substring(0,numero.length-1));
           //add(numero.substring(0,numero.length-1),"NUM");
@@ -404,13 +446,16 @@ function finalTokens(){
           break;
         }
         if(numero.length!=0){
-          add(numero.substring(0,numero.length-1),"NUM");  
+          add(numero.substring(0,numero.length-1),"NUM","n");
         }
-        
+
         var jump = numero.substring(0,numero.length-1).length;
         i+=jump;
 
       }else{
+      /**************************************
+                  PARENTESIS IF
+      **************************************/
         //----------------------prentesis del if (con una condicion)----------------------
         var secuense = "";
         var value = "";
@@ -424,13 +469,13 @@ function finalTokens(){
         var n = str.search("==");
         var firtValue = str.substring(0,n);
         var secondValue = str.substring(n+2,str.length-1);
-        add(firtValue,"ID");
-        add("==","OP");
+        add(firtValue,"ID","i");
+        add("==","OP","==");
         console.log("this-> second value: "+IsNumber(secondValue));
         if(!isNaN(secondValue)){
-          add(secondValue,"NUM");
+          add(secondValue,"NUM","n");
         }else{
-          add(secondValue,"ID");
+          add(secondValue,"ID","i");
         }
         i+=str.length-1;
       }
@@ -438,36 +483,36 @@ function finalTokens(){
     else if(temp==")"){
       console.log("detect-> )");
       temp = "";
-      add(")","DELIM");
+      add(")","DELIM",")");
     }
 
     // ----------------------end numeros en parentesis----------------
     else if(temp=="{"){
       console.log("detect-> {");
       temp = "";
-      add("{","DELIM");
+      add("{","DELIM","{");
     }
     else if(temp=="}"){
       console.log("detect-> }");
       temp = "";
-       add("}","DELIM");
+       add("}","DELIM","}");
     }
     else if(temp=="if"){
       console.log("detect-> if");
       temp = "";
-      add("if","RESERVED");
+      add("if","RESERVED","c");
 
     }
     //-----------------------------------------------------------------
     else if(temp=="=="){
       console.log("detect-> ==");
       temp = "";
-     add("==","OP");
+     add("==","OP","==");
     }
     else if(temp=="="){
       console.log("detect-> =");
       temp = "";
-      add("=","OP");
+      add("=","OP","=");
       var secuense = "";
       var numero = "";
       var j=i+1;
@@ -484,14 +529,14 @@ function finalTokens(){
           print("Error!! Valor Int no valido: " + numero.substring(0,numero.length-1));
         }
 
-      add(numero.substring(0,numero.length-1),"NUM");
+      add(numero.substring(0,numero.length-1),"NUM","n");
       var jump = numero.substring(0,numero.length-1).length;
       i+=jump;
     }
     else if(temp==";"){
       console.log("detect-> ;");
       temp = "";
-       add(";","ENDLINE");
+       add(";","ENDLINE",";");
     }
     else if(temp=="END"){
       console.log("detect-> end");
@@ -504,9 +549,19 @@ function finalTokens(){
 //     console.log(temp)
     i++;
   }
-  return rpt; 
+  return rpt;
 }
+/*
+funcion pa verificar si es una variable de tipo estero o no
+*/
 
+function IsNumber(numero){
+  if(Number.isInteger(numero)) {
+    console.log('La variable es entera');
+    return true;
+  }
+  return false;
+}
 /*
 mostrar la lista de token que se obtuvieron
 al ejecuta el programa
@@ -517,19 +572,374 @@ function ListToken(){
   ToKens = new Array();
   ToKens = finalTokens();
   for(var i=0; i<ToKens.length; ++i){
+   console.log(i + " "+ToKens[i].Token+" -> "+ToKens[i].Type);
     print(i + " "+ToKens[i].Token+" -> "+ToKens[i].Type);
+    //print(i+ "-->"+ token_traducer[i].Token+"<--");
+    traducerCode+=token_traducer[i].Token;
+    //traducer(ToKens[i].Token);
   }
+  print(traducerCode);
 }
 
-/*
-funcion pa verificar si es una vaiable de tipo estero o no
-*/
 
-function IsNumber(numero){
-  if(Number.isInteger(numero)) {
-    console.log('La variable es entera');
-    return true;
-  }
-  return false;
+
+/****************************************************
+**************      PARSER.JS     *******************
+*****************************************************/
+
+//INCLUDE a LEXER
+//import{hello} from "./lexer.js";
+
+const Table = require('cli-table');
+var EPSILON = "ε";
+
+var firstSets = {};
+var followSets = {};
+var terminals = [];
+var nonTerminals = [];
+
+function buildFirstSets(grammar) {
+    firstSets = {};
+    buildSet(firstOf);
 }
+
+function firstOf(symbol) {
+
+    if (firstSets[symbol]) {
+        return firstSets[symbol];
+    }
+
+    var first = firstSets[symbol] = {};
+    if (isTerminal(symbol)) {
+        first[symbol] = true;
+        return firstSets[symbol];
+    }
+
+    var productionsForSymbol = getProductionsForSymbol(symbol);
+    for (var k in productionsForSymbol) {
+        var production = getRHS(productionsForSymbol[k]);
+
+        for (var i = 0; i < production.length; i++) {
+            var productionSymbol = production[i];
+            if (productionSymbol === EPSILON) {
+                first[EPSILON] = true;
+                break;
+            }
+
+            var firstOfNonTerminal = firstOf(productionSymbol);
+
+            if (!firstOfNonTerminal[EPSILON]) {
+                merge(first, firstOfNonTerminal);
+                break;
+            }
+            merge(first, firstOfNonTerminal, [EPSILON]);
+        }
+    }
+    return first;
+}
+
+function getProductionsForSymbol(symbol) {
+    var productionsForSymbol = {};
+    for (var k in grammar) {
+        if (grammar[k][0] === symbol) {
+            productionsForSymbol[k] = grammar[k];
+        }
+    }
+    return productionsForSymbol;
+}
+
+function getLHS(production) {
+    return production.split('->')[0].replace(/\s+/g, '');
+}
+
+function getRHS(production) {
+    return production.split('->')[1].replace(/\s+/g, '');
+}
+
+function buildFollowSets(grammar) {
+    followSets = {};
+    buildSet(followOf);
+}
+
+function followOf(symbol) {
+    if (followSets[symbol]) {
+        return followSets[symbol];
+    }
+    var follow = followSets[symbol] = {};
+
+    if (symbol === START_SYMBOL) {
+        follow['$'] = true;
+    }
+
+    var productionsWithSymbol = getProductionsWithSymbol(symbol);
+    for (var k in productionsWithSymbol) {
+        var production = productionsWithSymbol[k];
+        var RHS = getRHS(production);
+
+        var symbolIndex = RHS.indexOf(symbol);
+        var followIndex = symbolIndex + 1;
+
+        while (true) {
+
+            if (followIndex === RHS.length) { // "$"
+                var LHS = getLHS(production);
+                if (LHS !== symbol) { // To avoid cases like: B -> aB
+                    merge(follow, followOf(LHS));
+                }
+                break;
+            }
+
+            var followSymbol = RHS[followIndex];
+
+            var firstOfFollow = firstOf(followSymbol);
+
+            if (!firstOfFollow[EPSILON]) {
+                merge(follow, firstOfFollow);
+                break;
+            }
+
+            merge(follow, firstOfFollow, [EPSILON]);
+            followIndex++;
+        }
+    }
+
+    return follow;
+}
+
+function buildSet(builder) {
+    for (var k in grammar) {
+        builder(grammar[k][0]);
+    }
+}
+
+function getProductionsWithSymbol(symbol) {
+    var productionsWithSymbol = {};
+    for (var k in grammar) {
+        var production = grammar[k];
+        var RHS = getRHS(production);
+        if (RHS.indexOf(symbol) !== -1) {
+            productionsWithSymbol[k] = production;
+        }
+    }
+    return productionsWithSymbol;
+}
+
+function isTerminal(symbol) {
+    return !/[A-Z]/.test(symbol);
+}
+
+function merge(to, from, exclude) {
+    exclude || (exclude = []);
+    for (var k in from) {
+        if (exclude.indexOf(k) === -1) {
+            to[k] = from[k];
+        }
+    }
+}
+
+function printGrammar(grammar) {
+    console.log('Grammar:\n');
+    for (var k in grammar) {
+        console.log('  ', grammar[k]);
+    }
+    console.log('');
+}
+
+function printSet(name, set) {
+    console.log(name + ': \n');
+    for (var k in set) {
+        console.log('  ', k, ':', Object.keys(set[k]));
+    }
+    console.log('');
+}
+
+var grammar = {
+  1:'S->A',
+  2:'A->EB',
+  3:'A->ORJBU',
+  4:'A->CZJBU',
+  5:'A->YV=N;B',
+  6:'E->W(N);',
+  7:'W->L',
+  8:'W->F',
+  9:'W->R',
+  10:'B->ε',
+  11:'B->A',
+  12:'L->l',
+  13:'F->f',
+  14:'O->o',
+  15:'R->r',
+  16:'N->n',
+  17:'I->i',
+  18:'C->c',
+  19:'Y->y',
+  20:'V->v',
+  21:'R->(I:N)',
+  22:'Z->(I==I)',
+  23:'J->{',
+  24:'U->}',
+}
+var START_SYMBOL = 'S';
+var text = "f(n);r(n);l(n);yv=n;o(i:n){c(i==i){f(n);l(n);}}f(n);r(n);";
+
+startUp(grammar, text);
+
+
+var parserTable;
+
+
+function startUp(grammar, text) {
+  printGrammar(grammar);
+  buildFirstSets(grammar);
+  buildFollowSets(grammar);
+  printSet('Conjunto Primeros', firstSets);
+  printSet('Conjunto Segundos', followSets);
+  buildNonTerminals(grammar);
+  buildTerminals(grammar);
+  parserTable = buildParserTable(grammar);
+  drawParsingTable(grammar);
+  solve(text);
+}
+
+function drawParsingTable(grammar) {
+  let ptable = parserTable;
+  let table = new Table({
+    head: ['', ...terminals, '$']
+  });
+  nonTerminals.map((nonTerminalItem) => {
+    let arr = [];
+    terminals.map((terminalItem) => {
+      arr.push(ptable[nonTerminalItem][terminalItem] || '');
+    });
+    arr.push(ptable[nonTerminalItem]['$'] || '');
+
+    // console.log(ptable[item]);
+    table.push([nonTerminalItem, ...arr]);
+  });
+  console.log(table.toString());
+}
+
+function buildNonTerminals(grammar) {
+  for(var k in grammar) {
+    let temp = getLHS(grammar[k]);
+    if(nonTerminals.indexOf(temp) == -1) {
+        nonTerminals.push(temp);
+    }
+  }
+  console.log("No Terminales: "+ nonTerminals);
+}
+
+function buildTerminals(grammar) {
+  for (var k in grammar) {
+    let temp = getRHS(grammar[k]);
+    for (var i = 0; i < temp.length; i++) {
+      if(nonTerminals.indexOf(temp[i]) == -1 && terminals.indexOf(temp[i]) == -1 ) {
+        terminals.push(temp[i]);
+      }
+    }
+  }
+  console.log("Terminales: "+terminals);
+}
+
+function buildParserTable(grammar) {
+  let ptable = {};
+
+
+  // i in nonTerminals
+  // j in terminals
+  for (var k in grammar) {
+    var itRHS = getRHS(grammar[k]);
+    var itLHS = getLHS(grammar[k]);
+    if(itRHS != EPSILON) {
+      let tempTerminals = firstSets[itRHS[0]];
+      for (termTemp in tempTerminals) {
+          ptable[itLHS] = ptable[itLHS] || {};
+          ptable[itLHS][termTemp]=k;
+      }
+    }
+    else {
+      let tempTerminals = followSets[itLHS];
+      for (termTemp in tempTerminals) {
+          ptable[itLHS] = ptable[itLHS] || {};
+          ptable[itLHS][termTemp]=k;
+      }
+    }
+  }
+  return ptable;
+}
+
+function solve(input) {
+    let log = [], reg=0;
+    let consumedInput = "", remainInput = input+"$";
+    let stack = ['$']; let action="nothing!";
+    stack.push(START_SYMBOL);
+    do {
+      let top = stack[stack.length-1];
+      if (stack.length == 1 && remainInput=="$")
+        action = "Accept!";
+
+      else if(isTerminal(top) && action!= EPSILON){
+        action = "Matched!";
+        stack.pop();
+        consumedInput+=remainInput.slice(0,1);
+        remainInput = remainInput.slice(1);
+      }
+      else if(top == EPSILON)
+        stack.pop();
+      else {
+        let num = parserTable[top][remainInput[0]];
+        if(!num) {
+            stack.pop();
+            reg = 1;
+        }
+        else{
+          action = getRHS(grammar[num]);
+          // console.log("stack111: ",stack);
+          if(top != remainInput[0]) {
+            stack.pop();
+            action.split('').reverse().map((t)=>{stack.push(t)});
+          }
+        }
+      }
+      let tmp = {
+        consumed: consumedInput,
+        stack: stack.join(),
+        top: stack[stack.length-1],
+        remain: remainInput,
+        action :action
+      };
+      log.push(tmp);
+      if(action == "Accept!"){
+        print("GRÁMATICA ACEPTADA");
+        break;
+      }
+    } while (stack.length > 0);
+    // console.log(parserTable[top][remainInput[0]]);
+    let newTable = new Table({
+        head: [ 'CONSUMEDINPUT', 'STACK', 'REMAIN', 'ACTION']
+    });
+
+    for(item in log) {
+      arr = [] ;
+      // console.log(log[item]);
+      arr.push(log[item].consumed)
+      arr.push(log[item].stack)
+      arr.push(log[item].remain)
+      arr.push(log[item].action)
+      newTable.push(arr);
+    }
+    console.log(newTable.toString());
+     //console.log(log);
+     //console.log("stack: ",stack);
+    console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
+}
+
+
+
+
+
+
+
+
+
 

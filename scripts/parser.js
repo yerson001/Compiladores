@@ -1,5 +1,7 @@
-const Table = require('cli-table');
+//INCLUDE a LEXER
+//import{hello} from "./lexer.js";
 
+const Table = require('cli-table');
 var EPSILON = "ε";
 
 var firstSets = {};
@@ -190,10 +192,12 @@ var grammar = {
 }
 var START_SYMBOL = 'S';
 //var text = "o(n){l(n);}";
-//var text = "o(i:n){l(n);}";
-var text = "yv=i;f(n);l(n);o(i:n){f(n);l(n);}";
+var text = "o(i:n){l(n);}";
+//var text = "yv=i;f(n);l(n);o(i:n){f(n);l(n);}";
 
 startUp(grammar, text);
+
+hello();
 
 var parserTable;
 
