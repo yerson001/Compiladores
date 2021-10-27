@@ -41,12 +41,16 @@ right(90);
 ## Gramática
 ~~~
 S->A
-A->W(N);
-A->O(I:N){A}
-A->C(I==I){A}
+A->EB
+A->O(I:N){B}
+A->C(I==I){B}
+A->YV=I;B
+E->W(N);
 W->L
 W->F
 W->R
+B->e
+B->A
 L->l
 F->f
 O->o
@@ -54,4 +58,18 @@ R->r
 N->n
 I->i
 C->c
+Y->y
+V->v
+
+~~~
+## Producciones
+~~~
+1. FOR(i:n){..]
+    o(i:n){r(n);}
+2. int a=0; FOR(i:4){..left(n); right(n);...};
+    yv=i;f(n);l(n);o(i:n){f(n);l(n);}
+3. IF(..){...}
+    c(i==i){l(n);}
+4. FOR--IF
+    o(i:n){r(n);c(i==i){l(n);}}
 ~~~
