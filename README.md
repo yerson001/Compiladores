@@ -7,7 +7,6 @@
 ## Click aqui [DOCUMENTO](https://docs.google.com/document/d/1EuZJ3zqq2_AnlcOfuZDhbMw45RhlynwMO6vKFlFqOqc/edit?usp=sharing)
 ## programa sin errores
 ~~~
-BEGIN
 fordware(10);
 right(90);
 left(90);
@@ -20,18 +19,16 @@ FOR(i:5){
 }
 fordware(3);
 right(90);
-END
 ~~~
 
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
 ~~~
-BEGIN#
 fordware(1r);
 right(90);
 left(92);
 int d = 0; 
-FOR(i:ty){
+FOR(y){
   if(d==i){
     fordware(5);
     left(90);
@@ -39,5 +36,40 @@ FOR(i:ty){
 }
 fordware(3);
 right(90);
-END
+~~~
+
+## Gramática
+~~~
+S->A
+A->EB
+A->O(I:N){B}
+A->C(I==I){B}
+A->YV=I;B
+E->W(N);
+W->L
+W->F
+W->R
+B->e
+B->A
+L->l
+F->f
+O->o
+R->r
+N->n
+I->i
+C->c
+Y->y
+V->v
+
+~~~
+## Producciones
+~~~
+1. FOR(i:n){..]
+    o(i:n){r(n);}
+2. int a=0; FOR(i:4){..left(n); right(n);...};
+    yv=i;f(n);l(n);o(i:n){f(n);l(n);}
+3. IF(..){...}
+    c(i==i){l(n);}
+4. FOR--IF
+    o(i:n){r(n);c(i==i){l(n);}}
 ~~~
