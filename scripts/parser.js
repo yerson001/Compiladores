@@ -19,8 +19,6 @@ function firstOf(symbol) {
     }
 
     var first = firstSets[symbol] = {};
-
-    // If it's a terminal, its first set is just itself.
     if (isTerminal(symbol)) {
         first[symbol] = true;
         return firstSets[symbol];
@@ -32,8 +30,6 @@ function firstOf(symbol) {
 
         for (var i = 0; i < production.length; i++) {
             var productionSymbol = production[i];
-
-            // Epsilon goes to the first set.
             if (productionSymbol === EPSILON) {
                 first[EPSILON] = true;
                 break;
@@ -45,17 +41,9 @@ function firstOf(symbol) {
                 merge(first, firstOfNonTerminal);
                 break;
             }
-
-            // Else (we got epsilon in the first non-terminal),
-            //
-            //   - merge all except for epsilon
-            //   - eliminate this non-terminal and advance to the next symbol
-            //     (i.e. don't break this loop)
             merge(first, firstOfNonTerminal, [EPSILON]);
-            // don't break, go to the next `productionSymbol`.
         }
     }
-
     return first;
 }
 
@@ -83,36 +71,22 @@ function buildFollowSets(grammar) {
 }
 
 function followOf(symbol) {
-
-    // If was already calculated from some previous run.
     if (followSets[symbol]) {
         return followSets[symbol];
     }
-
-    // Else init and calculate.
     var follow = followSets[symbol] = {};
 
-    // Start symbol always contain `$` in its follow set.
     if (symbol === START_SYMBOL) {
         follow['$'] = true;
     }
 
-    // We need to analyze all productions where our
-    // symbol is used (i.e. where it appears on RHS).
     var productionsWithSymbol = getProductionsWithSymbol(symbol);
     for (var k in productionsWithSymbol) {
         var production = productionsWithSymbol[k];
         var RHS = getRHS(production);
 
-        // Get the follow symbol of our symbol.
         var symbolIndex = RHS.indexOf(symbol);
         var followIndex = symbolIndex + 1;
-
-        // We need to get the following symbol, which can be `$` or
-        // may contain epsilon in its first set. If it contains epsilon, then
-        // we should take the next following symbol: `A -> aBCD`: if `C` (the
-        // follow of `B`) can be epsilon, we should consider first of `D` as well
-        // as the follow of `B`.
 
         while (true) {
 
@@ -126,11 +100,8 @@ function followOf(symbol) {
 
             var followSymbol = RHS[followIndex];
 
-            // Follow of our symbol is anything in the first of the following symbol:
-            // followOf(symbol) is firstOf(followSymbol), except for epsilon.
             var firstOfFollow = firstOf(followSymbol);
 
-            // If there is no epsilon, just merge.
             if (!firstOfFollow[EPSILON]) {
                 merge(follow, firstOfFollow);
                 break;
@@ -191,18 +162,6 @@ function printSet(name, set) {
     console.log('');
 }
 
-// Testing
-/*
-var grammar = {
-    1: 'E -> TX',
-    2: 'X -> +TX',
-    3: 'X -> ε',
-    4: 'T -> FY',
-    5: 'Y -> *FY',
-    6: 'Y -> ε',
-    7: 'F -> (E)',
-    8: 'F -> a',
-};*/
 var grammar = {
   1:'S->A',
   2:'A->EB',
@@ -243,8 +202,8 @@ function startUp(grammar, text) {
   printGrammar(grammar);
   buildFirstSets(grammar);
   buildFollowSets(grammar);
-  printSet('First sets', firstSets);
-  printSet('Follow sets', followSets);
+  printSet('Conjunto Primeros', firstSets);
+  printSet('Conjunto Segundos', followSets);
   buildNonTerminals(grammar);
   buildTerminals(grammar);
   parserTable = buildParserTable(grammar);
@@ -277,7 +236,7 @@ function buildNonTerminals(grammar) {
         nonTerminals.push(temp);
     }
   }
-  console.log("NonTerminals: "+ nonTerminals);
+  console.log("No Terminales: "+ nonTerminals);
 }
 
 function buildTerminals(grammar) {
@@ -289,7 +248,7 @@ function buildTerminals(grammar) {
       }
     }
   }
-  console.log("Terminals: "+terminals);
+  console.log("Terminales: "+terminals);
 }
 
 function buildParserTable(grammar) {
@@ -379,5 +338,5 @@ function solve(input) {
     console.log(newTable.toString());
      //console.log(log);
      //console.log("stack: ",stack);
-    console.log((reg)?"Ans: Reject! (but accept with err handler!)":"Ans: Accept!");
+    console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
