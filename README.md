@@ -24,7 +24,6 @@ right(90);
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
 ~~~
-#
 fordware(1r);
 right(90);
 left(92);
