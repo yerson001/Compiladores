@@ -11,7 +11,7 @@ fordware(10);
 right(90);
 left(90);
 int d = 0; 
-FOR(5){
+FOR(i:5){
   if(d==i){
     fordware(5);
     left(90);
