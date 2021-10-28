@@ -23,6 +23,7 @@ function init(){
  //------parser--program
   var text = "o(i:n){l(n);}";
   startUp(grammar, text);
+  print("--> end parser");
 }
 
 /*
@@ -590,7 +591,7 @@ function ListToken(){
 //INCLUDE a LEXER
 //import{hello} from "./lexer.js";
 
-const Table = require('cli-table');
+//const Table = require('cli-table');
 var EPSILON = "ε";
 
 var firstSets = {};
@@ -739,18 +740,24 @@ function merge(to, from, exclude) {
 
 function printGrammar(grammar) {
     console.log('Grammar:\n');
+    print('Grammar:\n');
     for (var k in grammar) {
         console.log('  ', grammar[k]);
+        print('  ', grammar[k]);
     }
     console.log('');
+    print('');
 }
 
 function printSet(name, set) {
     console.log(name + ': \n');
+    print(name + ': \n');
     for (var k in set) {
         console.log('  ', k, ':', Object.keys(set[k]));
+        print('  ', k, ':', Object.keys(set[k]));
     }
     console.log('');
+    print('');
 }
 
 var grammar = {
@@ -797,10 +804,11 @@ function startUp(grammar, text) {
   buildNonTerminals(grammar);
   buildTerminals(grammar);
   parserTable = buildParserTable(grammar);
-  drawParsingTable(grammar);
+  //------------TABLE-----------
+  //drawParsingTable(grammar);
   solve(text);
 }
-
+/*
 function drawParsingTable(grammar) {
   let ptable = parserTable;
   let table = new Table({
@@ -818,7 +826,7 @@ function drawParsingTable(grammar) {
   });
   console.log(table.toString());
 }
-
+*/
 function buildNonTerminals(grammar) {
   for(var k in grammar) {
     let temp = getLHS(grammar[k]);
@@ -901,25 +909,25 @@ function solve(input) {
           }
         }
       }
-      let tmp = {
+      /*let tmp = {
         consumed: consumedInput,
         stack: stack.join(),
         top: stack[stack.length-1],
         remain: remainInput,
         action :action
-      };
-      log.push(tmp);
+      };*/
+      //log.push(tmp);
       if(action == "Accept!"){
         print("GRÁMATICA ACEPTADA");
         break;
       }
     } while (stack.length > 0);
     // console.log(parserTable[top][remainInput[0]]);
-    let newTable = new Table({
-        head: [ 'CONSUMEDINPUT', 'STACK', 'REMAIN', 'ACTION']
-    });
+    //let newTable = new Table({
+     //   head: [ 'CONSUMEDINPUT', 'STACK', 'REMAIN', 'ACTION']
+    //});
 
-    for(item in log) {
+    /*for(item in log) {
       arr = [] ;
       // console.log(log[item]);
       arr.push(log[item].consumed)
@@ -927,11 +935,12 @@ function solve(input) {
       arr.push(log[item].remain)
       arr.push(log[item].action)
       newTable.push(arr);
-    }
-    console.log(newTable.toString());
+    }*/
+    //console.log(newTable.toString());
      //console.log(log);
      //console.log("stack: ",stack);
     console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
+    print((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
 
 
