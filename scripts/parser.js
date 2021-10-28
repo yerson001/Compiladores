@@ -1,6 +1,7 @@
 //INCLUDE a LEXER
 //import{hello} from "./lexer.js";
 
+/*
 const Table = require('cli-table');
 var EPSILON = "ε";
 
@@ -344,3 +345,4 @@ function solve(input) {
      //console.log("stack: ",stack);
     console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
+*/

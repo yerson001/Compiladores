@@ -6,6 +6,38 @@ var EOF = new TokenObject();
     EOF.Token = "$";
     EOF.Type = "EOF";
 
+/**************PARSERVARIBLES*****/
+var START_SYMBOL = 'S';
+
+var grammar = {
+  1:'S->A',
+  2:'A->EB',
+  3:'A->ORJBU',
+  4:'A->CZJBU',
+  5:'A->YV=N;B',
+  6:'E->W(N);',
+  7:'W->L',
+  8:'W->F',
+  9:'W->R',
+  10:'B->ε',
+  11:'B->A',
+  12:'L->l',
+  13:'F->f',
+  14:'O->o',
+  15:'R->r',
+  16:'N->n',
+  17:'I->i',
+  18:'C->c',
+  19:'Y->y',
+  20:'V->v',
+  21:'R->(I:N)',
+  22:'Z->(I==I)',
+  23:'J->{',
+  24:'U->}',
+}
+
+
+
 var token_traducer = new TokenObject();
 // varible global para el code traducido
 var traducerCode="";
@@ -21,9 +53,7 @@ function init(){
   tokens = tokenSorter();
   ListToken();
  //------parser--program
-  var text = "o(i:n){l(n);}";
-  startUp(grammar, text);
-  print("--> end parser");
+
 }
 
 /*
@@ -575,11 +605,12 @@ function ListToken(){
   for(var i=0; i<ToKens.length; ++i){
    console.log(i + " "+ToKens[i].Token+" -> "+ToKens[i].Type);
     print(i + " "+ToKens[i].Token+" -> "+ToKens[i].Type);
-    //print(i+ "-->"+ token_traducer[i].Token+"<--");
     traducerCode+=token_traducer[i].Token;
-    //traducer(ToKens[i].Token);
   }
-  print(traducerCode);
+  print("SourceCode: " + traducerCode);
+  var text = traducerCode;
+  startUp(grammar, text);
+  traducerCode = "";
 }
 
 
@@ -743,54 +774,30 @@ function printGrammar(grammar) {
     print('Grammar:\n');
     for (var k in grammar) {
         console.log('  ', grammar[k]);
-        print('  ', grammar[k]);
+        print(" " + grammar[k]);
     }
     console.log('');
-    print('');
+    print(" ");
 }
 
 function printSet(name, set) {
     console.log(name + ': \n');
-    print(name + ': \n');
+    print(name + ": \n");
     for (var k in set) {
         console.log('  ', k, ':', Object.keys(set[k]));
-        print('  ', k, ':', Object.keys(set[k]));
+        print(" "+ k + ":"+ Object.keys(set[k]));
     }
     console.log('');
     print('');
 }
 
-var grammar = {
-  1:'S->A',
-  2:'A->EB',
-  3:'A->ORJBU',
-  4:'A->CZJBU',
-  5:'A->YV=N;B',
-  6:'E->W(N);',
-  7:'W->L',
-  8:'W->F',
-  9:'W->R',
-  10:'B->ε',
-  11:'B->A',
-  12:'L->l',
-  13:'F->f',
-  14:'O->o',
-  15:'R->r',
-  16:'N->n',
-  17:'I->i',
-  18:'C->c',
-  19:'Y->y',
-  20:'V->v',
-  21:'R->(I:N)',
-  22:'Z->(I==I)',
-  23:'J->{',
-  24:'U->}',
-}
-var START_SYMBOL = 'S';
+
+
+/*
 var text = "f(n);r(n);l(n);yv=n;o(i:n){c(i==i){f(n);l(n);}}f(n);r(n);";
 
 startUp(grammar, text);
-
+*/
 
 var parserTable;
 
@@ -804,29 +811,8 @@ function startUp(grammar, text) {
   buildNonTerminals(grammar);
   buildTerminals(grammar);
   parserTable = buildParserTable(grammar);
-  //------------TABLE-----------
-  //drawParsingTable(grammar);
   solve(text);
 }
-/*
-function drawParsingTable(grammar) {
-  let ptable = parserTable;
-  let table = new Table({
-    head: ['', ...terminals, '$']
-  });
-  nonTerminals.map((nonTerminalItem) => {
-    let arr = [];
-    terminals.map((terminalItem) => {
-      arr.push(ptable[nonTerminalItem][terminalItem] || '');
-    });
-    arr.push(ptable[nonTerminalItem]['$'] || '');
-
-    // console.log(ptable[item]);
-    table.push([nonTerminalItem, ...arr]);
-  });
-  console.log(table.toString());
-}
-*/
 function buildNonTerminals(grammar) {
   for(var k in grammar) {
     let temp = getLHS(grammar[k]);
@@ -852,9 +838,6 @@ function buildTerminals(grammar) {
 function buildParserTable(grammar) {
   let ptable = {};
 
-
-  // i in nonTerminals
-  // j in terminals
   for (var k in grammar) {
     var itRHS = getRHS(grammar[k]);
     var itLHS = getLHS(grammar[k]);
@@ -909,36 +892,11 @@ function solve(input) {
           }
         }
       }
-      /*let tmp = {
-        consumed: consumedInput,
-        stack: stack.join(),
-        top: stack[stack.length-1],
-        remain: remainInput,
-        action :action
-      };*/
-      //log.push(tmp);
       if(action == "Accept!"){
         print("GRÁMATICA ACEPTADA");
         break;
       }
     } while (stack.length > 0);
-    // console.log(parserTable[top][remainInput[0]]);
-    //let newTable = new Table({
-     //   head: [ 'CONSUMEDINPUT', 'STACK', 'REMAIN', 'ACTION']
-    //});
-
-    /*for(item in log) {
-      arr = [] ;
-      // console.log(log[item]);
-      arr.push(log[item].consumed)
-      arr.push(log[item].stack)
-      arr.push(log[item].remain)
-      arr.push(log[item].action)
-      newTable.push(arr);
-    }*/
-    //console.log(newTable.toString());
-     //console.log(log);
-     //console.log("stack: ",stack);
     console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
     print((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
