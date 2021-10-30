@@ -1,7 +1,10 @@
 //INCLUDE a LEXER
 //import{hello} from "./lexer.js";
 
-/*
+/**************************
+ * ******** MY_TREE *******
+ * ************************/
+
 const Table = require('cli-table');
 var EPSILON = "ε";
 
@@ -150,7 +153,7 @@ function merge(to, from, exclude) {
 }
 
 function printGrammar(grammar) {
-    console.log('Grammar:\n');
+    console.log('Gramatica:\n');
     for (var k in grammar) {
         console.log('  ', grammar[k]);
     }
@@ -192,13 +195,12 @@ var grammar = {
   24:'U->}',
 }
 var START_SYMBOL = 'S';
-//var text = "o(n){l(n);}";
-var text = "o(i:n){l(n);}";
+var text = "l(n);";
+//var text = "o(i:n){l(n);}";
 //var text = "yv=i;f(n);l(n);o(i:n){f(n);l(n);}";
 
 startUp(grammar, text);
 
-hello();
 
 var parserTable;
 
@@ -313,6 +315,10 @@ function solve(input) {
           if(top != remainInput[0]) {
             stack.pop();
             action.split('').reverse().map((t)=>{stack.push(t)});
+//             for(var i=0; i<action.length; i++){
+//                 tree.add(action[i],top);
+//                 console.log("FOR: "+action[i]+" <--- Top: "+top);
+//             }
           }
         }
       }
@@ -345,4 +351,3 @@ function solve(input) {
      //console.log("stack: ",stack);
     console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
-*/

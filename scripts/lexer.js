@@ -612,7 +612,58 @@ function ListToken(){
   startUp(grammar, text);
   traducerCode = "";
 }
+/****************************************************
+*******************  my_tree ************************
+*****************************************************/
+function Node(data) {
+    this.data = data;
+    this.children = [];
+}
 
+class Tree {
+    constructor() {
+        this.root = null;
+    }
+
+    add(data, toNodeData) {
+        const node = new Node(data);
+        const parent = toNodeData ? this.findBFS(toNodeData) : null;
+        if(parent) {
+            parent.children.push(node)
+        } else {
+            if(!this.root)
+                this.root = node;
+            else
+                return "nodo existe"
+        }
+    }
+
+    findBFS(data) {
+        const queue = [this.root];
+        let _node = null;
+        this.traverseBFS((node) => {
+            if(node.data === data) {
+                _node = node;
+            }
+        })
+
+        return _node;
+    }
+
+    traverseBFS(cb) {
+        const queue = [this.root];
+
+        if(cb)
+            while(queue.length) {
+                const node = queue.shift();
+                cb(node)
+                    for(const child of node.children) {
+                    queue.push(child);
+                }
+            }
+    }
+}
+let tree = new Tree()
 
 
 /****************************************************
@@ -770,8 +821,8 @@ function merge(to, from, exclude) {
 }
 
 function printGrammar(grammar) {
-    console.log('Grammar:\n');
-    print('Grammar:\n');
+    console.log('Gramatica:\n');
+    print('Gramatica:\n');
     for (var k in grammar) {
         console.log('  ', grammar[k]);
         print(" " + grammar[k]);
@@ -812,6 +863,7 @@ function startUp(grammar, text) {
   buildTerminals(grammar);
   parserTable = buildParserTable(grammar);
   solve(text);
+  tree.traverseBFS((node) => {console.log(node)})
 }
 function buildNonTerminals(grammar) {
   for(var k in grammar) {
@@ -864,6 +916,10 @@ function solve(input) {
     let consumedInput = "", remainInput = input+"$";
     let stack = ['$']; let action="nothing!";
     stack.push(START_SYMBOL);
+
+    var root = stack[stack.length-1];
+    //console.log("INICIAL-->" + root);
+    tree.add(root);
     do {
       let top = stack[stack.length-1];
       if (stack.length == 1 && remainInput=="$")
@@ -885,10 +941,15 @@ function solve(input) {
         }
         else{
           action = getRHS(grammar[num]);
-          // console.log("stack111: ",stack);
           if(top != remainInput[0]) {
             stack.pop();
             action.split('').reverse().map((t)=>{stack.push(t)});
+            console.log("stack: ",stack);
+            console.log("Action: "+action+" size: "+action.length+" <--- Top: "+top);
+            for(var i=0; i<action.length; i++){
+                tree.add(action[i],top);
+                console.log("FOR: "+action[i]+" <--- Top: "+top);
+            }
           }
         }
       }
