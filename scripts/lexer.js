@@ -958,8 +958,8 @@ function solve(input) {
         break;
       }
     } while (stack.length > 0);
-    console.log((reg)?"Ans: Tiene algunos errores":"Ans: Failed!");
-    print((reg)?"Ans: Tiene algunos errores":"Ans: Failed!");
+    console.log((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
+    print((reg)?"Ans: Tiene algunos errores":"Ans: Accept!");
 }
 
 
