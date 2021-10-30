@@ -2,7 +2,7 @@
 
 ![imh](https://github.com/yerson001/Compiladores/blob/main/img/Selecci%C3%B3n_003.png)
 
-## Click aqui [DEMO](https://yerson001.github.io/LPgame/) 
+## Click aqui [DEMO](https://yerson001.github.io/LPgame/)
 
 ## Click aqui [DOCUMENTO](https://docs.google.com/document/d/1EuZJ3zqq2_AnlcOfuZDhbMw45RhlynwMO6vKFlFqOqc/edit?usp=sharing)
 ## programa sin errores
@@ -10,7 +10,7 @@
 fordware(10);
 right(90);
 left(90);
-int d = 0; 
+int d = 0;
 FOR(i:5){
   if(d==i){
     fordware(5);
@@ -27,7 +27,7 @@ right(90);
 fordware(1r);
 right(90);
 left(92);
-int d = 0; 
+int d = 0;
 FOR(y){
   if(d==i){
     fordware(5);
@@ -73,3 +73,22 @@ V->v
 4. FOR--IF
     o(i:n){r(n);c(i==i){l(n);}}
 ~~~
+## Conjunto primeros
+![imh](img/primeros.png)
+![imh](img/primeros_2.png)
+
+## Conjuto de segundos
+
+![imh](img/segundos.png)
+
+## Terminales y no terminales
+![teminales](img/terminales_noterminales.png)
+
+## Tabla ll1
+![table](img/tabla.png)
+## TEST producciones
+
+![table](img/test_pro.png)
+
+## Arbol de derivaciones
+![test](img/tree.png)
