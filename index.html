@@ -7,32 +7,69 @@
 
 <head>
     <title>compiler</title>
+    <!--<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    -->
+      <script src="scripts/app.js" charset="utf-8"></script>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-</head>
-    <h1>compiler proyect</h1>
- <input type="button" id="btnCompile" value="RUN" onclick="init();"/>
-    <main>
-      <div class="editor">
-        <div class="line">
-            <p>1</p>
-        </div>
-       <div class="text-cont">
-          <textarea name="" id="Main_Code" cols="45" rows="20" onkeyup="update()"></textarea>
-         <br>
-        </div>
-    </div>
-        <div>
-            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>  <br>
-            COMPILER OUTPUT HERE OK
-            <br>
-            <textarea id="Output" cols="45" rows="8"></textarea>
-        </div>
-    </main>
-
     <script src="scripts/utils.js"></script>
     <script src="scripts/lexer.js"></script>
-    <!-- <script src="scripts/parser.js" ></script> -->
-</body>
+</head>
+    <h1>compiler proyect</h1>
+ 
+   
+ <div class="container-main">
+<!--           THIS PART IS TEXT CODE            -->
+  <main>
+    <div class="editor">
+      <div class="line">
+          <p>1</p>
+      </div>
+     <div class="text-cont">
+        <textarea name="" id="Main_Code" cols="45" rows="100" onkeyup="update()"></textarea>
+       <br>
+     </div>
+   </div>
+  </main>
+</div>
+
+<div class="container-main">
+  <div class="game">
+    <div class="grid"></div>
+    <div class="info">
+      <div class="start">Start</div>
+      <div class="infoBox"></div>
+      <p>Score: <span class="score">0<span></p>
+      <p>Timer: <span class="timer">0</span></p>
+      <div class="table">
+        <p>TopScore:</p>
+        <p class="highScore"></p>
+      </div>
+      <p class="label">Controls</p>
+      <div class="controls">
+        <div class="up">↑</div>
+        <div class="sideways">
+          <div class="left">←</div>
+          <div class="right">→</div>
+        </div>
+          <div class="down">↓</div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <br> 
+  <input type="button" id="btnCompile" value="RUN" onclick="init();"/>
+  <div>
+    <br> 
+      COMPILER OUTPUT HERE OK
+    <br>
+    <textarea id="Output" cols="45" rows="8"></textarea>
+  </div>
+</div>
+  </body>
 </html>
 
