@@ -1,170 +1,201 @@
 <!DOCTYPE HTML>
 <html>
 
-<div class='nowiki' val=""><font color="purple">
+<div class='nowiki' val="">
+  <font color="purple">
 
-<body bgcolor="white">
-  <style>
-canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-
-  </style>
+    <body bgcolor="white">
 
 
-<head>
-    <title>compiler</title>
-    <!--<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+      <head>
+        <title>compiler</title>
+        <!--<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     
     -->
-      <script src="scripts/app.js" charset="utf-8"></script>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script src="scripts/utils.js"></script>
-    <script src="scripts/lexer.js"></script>
-</head>
-    <h1>compiler proyect</h1>
- 
-   
- <div class="container-main">
-<!--           THIS PART IS TEXT CODE            -->
-  <main>
-    <div class="editor">
-      <div class="line">
-          <p>1</p>
+        <!--<script src="scripts/game.js" charset="utf-8"></script>-->
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/lexer.js"></script>
+      </head>
+      <style>
+        canvas {
+          border: 4px solid red;
+          background-color: #f1f1f1;
+          margin: 20px;
+          padding: 10px;
+          background-image: url('img/you.jpg');
+          /*display: flex;
+          align-items: center;*/
+        }
+      </style>
+
+      <div class="container-main" style="background-image: url('img/tabla.png');">
+        <!--           THIS PART IS TEXT CODE            -->
+        <center>
+          <h1>SOURCE CODE</h1>
+        </center>
+        <main>
+          <div class="editor" style="background-image: url('img/green.png');">
+            <div class="line">
+              <p>1</p>
+            </div>
+            <div class="text-cont">
+              <textarea name="" id="Main_Code" cols="45" rows="100" onkeyup="update()"></textarea>
+              <br>
+            </div>
+          </div>
+        </main>
       </div>
-     <div class="text-cont">
-        <textarea name="" id="Main_Code" cols="45" rows="100" onkeyup="update()"></textarea>
-       <br>
-     </div>
-   </div>
-  </main>
-</div>
-
-<div class="container-main">
-  <h1>hello wordl</h1>
-
-
-  <body onload="startGame()">
-<script>
-
-var myGamePiece;
-
-function startGame() {
-    myGamePiece = new component(30, 30, "red", 10, 120);
-    myGameArea.start();
-}
-
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
-    },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-}
-
-function component(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;    
-    this.update = function() {
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;        
-    }    
-}
-
-function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.newPos();    
-    myGamePiece.update();
-}
-
-function moveup() {
-    myGamePiece.speedY = -1; 
-}
-
-function movedown() {
-    myGamePiece.speedY = 1; 
-}
-
-function moveleft() {
-    myGamePiece.speedX = -1; 
-}
-
-function moveright() {
-    myGamePiece.speedX = 1; 
-}
-
-function clearmove() {
-    myGamePiece.speedX = 0; 
-    myGamePiece.speedY = 0; 
-}
-
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-var number = 0;
-function action(){
-    msg = document.getElementById('msg').value;
-    if(msg[number]==1){
-        console.log("this-> uno");
-        moveright();
-    }else if(msg[number]==2){
-        console.log("this-> dos");
-        moveleft();
-    }else if(msg[number]==3){
-        console.log("this-> tress");
-        movedown();
-    }
-    number+=1;
-    //document.getElementById('output').innerHTML = msg;
-}
-</script>
-<div style="text-align:center;width:480px;">
-  <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
-  <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
-  <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()">RIGHT</button><br><br>
-  <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()">DOWN</button>
-</div>
-<br>
-<tr>
-  <td>
-    <input type="text" value="" id="msg">
-  </td>
-  </tr>
-  <p id="output"></p>
-  <tr>
-  <td><button  onmousedown="action()" onmouseup="clearmove()"  ontouchstart="action()">DEC</button></td>
-  </tr>
-</body>
 
 
 
+      <div class="container-main">
 
-  <br> 
-  <input type="button" id="btnCompile" value="RUN" onclick="init();"/>
-  <div>
-    <br> 
-      COMPILER OUTPUT HERE OK
-    <br>
-    <textarea id="Output" cols="45" rows="8"></textarea>
-  </div>
-</div>
-  </body>
+        <div style="text-align:center;">
+          <center>
+            <h1>OUTPUT</h1>
+
+            <body onload="startGame()">
+              <script>
+                var myGamePiece;
+                let walls = [];
+                var elen;
+
+                function letsGo(img,posx,posy,n,p){
+                  var it = 0;
+                  for (var i = 0; i < n; i++) {
+                  if(p=="v"){
+                    elen = new component(30, 30, "scripts/"+img, posx, posy + it, "image");
+                  }else{
+                    elen = new component(30, 30, "scripts/"+img, posx+it, posy, "image");
+                  }
+                  walls.push(elen);
+                    it += 30;
+                  }
+                }
+
+                function startGame() {
+                  myGamePiece = new component(30, 30, "img/one.png", 30, 30, "image");
+
+                  letsGo("two.png",0,0,17,"v");
+                  letsGo("two.png",0,0,36,"h");
+                  letsGo("two.png",1060,0,17,"v");
+                  letsGo("two.png",0,470,36,"h");
+                  // <----------------end walls complete ---------------->
+                    
+                  // <----------------obstacles---------->
+                  myGameArea.start();
+                }
+
+                var myGameArea = {
+                  canvas: document.createElement("canvas"),
+                  start: function () {
+                    this.canvas.width = 1100;
+                    this.canvas.height = 500;
+                    this.context = this.canvas.getContext("2d");
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.frameNo = 0;
+                    this.interval = setInterval(updateGameArea, 20);
+                  },
+                  clear: function () {
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                  },
+                  stop: function () {
+                    clearInterval(this.interval);
+                  }
+                }
+
+                function component(width, height, color, x, y, type) {
+                  this.type = type;
+                  if (type == "image") {
+                    this.image = new Image();
+                    this.image.src = color;
+                  }
+                  this.width = width;
+                  this.height = height;
+                  this.speedX = 0;
+                  this.speedY = 0;
+                  this.x = x;
+                  this.y = y;
+                  this.update = function () {
+                    ctx = myGameArea.context;
+                    if (type == "image") {
+                      ctx.drawImage(this.image,
+                        this.x,
+                        this.y,
+                        this.width, this.height);
+                    } else {
+                      ctx.fillStyle = color;
+                      ctx.fillRect(this.x, this.y, this.width, this.height);
+                    }
+                  }
+                  this.newPos = function () {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                  }
+                }
+
+                function updateGameArea() {
+                  myGameArea.clear();
+                  myGamePiece.newPos();
+                  myGamePiece.update();
+
+                  for (var i = 0; i < walls.length; i++) {
+                    walls[i].newPos();
+                    walls[i].update();
+                  }
+                }
+
+                function move(dir) {
+                  myGamePiece.image.src = "scripts/two.png";
+                  if (dir == "up") { myGamePiece.speedY = -5; }
+                  if (dir == "down") { myGamePiece.speedY = 5; }
+                  if (dir == "left") { myGamePiece.speedX = -5; }
+                  if (dir == "right") { myGamePiece.speedX = 5; }
+                }
+
+                function clearmove() {
+                  myGamePiece.image.src = "img/one.png";
+                  myGamePiece.speedX = 0;
+                  myGamePiece.speedY = 0;
+                }
+              </script>
+
+        </div>
+        <div style="text-align:center;width:480px;">
+          <button onmousedown="move('up')" onmouseup="clearmove()" ontouchstart="move('up')">UP</button><br><br>
+          <button onmousedown="move('left')" onmouseup="clearmove()" ontouchstart="move('left')">LEFT</button>
+          <button onmousedown="move('right')" onmouseup="clearmove()"
+            ontouchstart="move('right')">RIGHT</button><br><br>
+          <button onmousedown="move('down')" onmouseup="clearmove()" ontouchstart="move('down')">DOWN</button>
+        </div>
+        <br>
+        <tr>
+          <td>
+            <input type="text" value="" id="msg">
+          </td>
+        </tr>
+        <p id="output"></p>
+        <tr>
+          <td><button onmousedown="action()" onmouseup="clearmove()" ontouchstart="action()">DEC</button></td>
+        </tr>
+        <!--</body>-->
+
+
+
+
+        <br>
+        <input type="button" id="btnCompile" value="RUN" onclick="init();" />
+        <div>
+          <br>
+          COMPILER OUTPUT HERE OK
+          <br>
+          <textarea id="Output" cols="45" rows="8"></textarea>
+        </div>
+      </div>
+      </center>
+    </body>
+
 </html>
-

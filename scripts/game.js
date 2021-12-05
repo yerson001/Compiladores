@@ -1,16 +1,34 @@
 
 var myGamePiece;
+let walls = [];
+var elen;
+
 
 function startGame() {
-    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece = new component(30, 30, "../img/one.png", 30, 30,"image");
+    var it = 0;
+    for(var i=0; i<15; i++){
+        elen = new component(30, 30, "red", 0,0+it);
+        walls.push(elen);
+        it+=30;
+    }
+    it = 0;
+    for(var i=0; i<15; i++){
+        elen = new component(30, 30, "green", 0+it,0);
+        walls.push(elen);
+        it+=30;
+    }
+
+
+
     myGameArea.start();
 }
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 1100;
+        this.canvas.height = 500;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -20,7 +38,12 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y,type) {
+    this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -29,8 +52,15 @@ function component(width, height, color, x, y) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (type == "image") {
+            ctx.drawImage(this.image, 
+                this.x, 
+                this.y,
+                this.width, this.height);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -42,6 +72,11 @@ function updateGameArea() {
     myGameArea.clear();
     myGamePiece.newPos();    
     myGamePiece.update();
+
+    for(var i=0; i<walls.length; i++){
+        walls[i].newPos();    
+        walls[i].update();
+    }
 }
 
 function moveup() {
@@ -61,6 +96,7 @@ function moveright() {
 }
 
 function clearmove() {
+    myGamePiece.image.src = "../img/one.png";
     myGamePiece.speedX = 0; 
     myGamePiece.speedY = 0; 
 }
