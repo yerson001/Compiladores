@@ -6,10 +6,8 @@
 
     <body bgcolor="white">
 
-
-
       <head>
-        <title>compiler</title>
+        <title>index</title>
         <!--<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     
     -->
@@ -63,15 +61,15 @@
                 let walls = [];
                 var elen;
 
-                function letsGo(img,posx,posy,n,p){
+                function letsGo(img, posx, posy, n, p) {
                   var it = 0;
                   for (var i = 0; i < n; i++) {
-                  if(p=="v"){
-                    elen = new component(30, 30, "scripts/"+img, posx, posy + it, "image");
-                  }else{
-                    elen = new component(30, 30, "scripts/"+img, posx+it, posy, "image");
-                  }
-                  walls.push(elen);
+                    if (p == "v") {
+                      elen = new component(30, 30, "scripts/" + img, posx, posy + it, "image");
+                    } else {
+                      elen = new component(30, 30, "scripts/" + img, posx + it, posy, "image");
+                    }
+                    walls.push(elen);
                     it += 30;
                   }
                 }
@@ -79,13 +77,34 @@
                 function startGame() {
                   myGamePiece = new component(30, 30, "img/one.png", 30, 30, "image");
 
-                  letsGo("two.png",0,0,17,"v");
-                  letsGo("two.png",0,0,36,"h");
-                  letsGo("two.png",1060,0,17,"v");
-                  letsGo("two.png",0,470,36,"h");
+                  letsGo("two.png", 0, 0, 17, "v");
+                  letsGo("two.png", 1060, 0, 17, "v");
+                  letsGo("two.png", 0, 0, 36, "h");
+                  letsGo("two.png", 0, 470, 36, "h");
                   // <----------------end walls complete ---------------->
-                    
+                  //letsGo("two.png",0,60,17,"h");
+                  letsGo("two.png", 0, 120, 17, "h");
+                  letsGo("two.png", 0, 180, 17, "h");
+                  letsGo("two.png", 0, 240, 17, "h");
+                  letsGo("two.png", 0, 320, 17, "h");
+                  letsGo("two.png", 0, 380, 17, "h");
                   // <----------------obstacles---------->
+                  //letsGo("two.png",60,0,17,"v");
+                  letsGo("two.png", 120, 0, 17, "v");
+                  letsGo("two.png", 180, 0, 17, "v");
+                  letsGo("two.png", 240, 0, 17, "v");
+                  letsGo("two.png", 320, 0, 17, "v");
+                  letsGo("two.png", 380, 0, 17, "v");
+                  letsGo("two.png", 440, 0, 17, "v");
+                  letsGo("two.png", 500, 0, 17, "v");
+                  letsGo("two.png", 560, 0, 17, "v");
+                  letsGo("two.png", 620, 0, 17, "v");
+                  letsGo("two.png", 680, 0, 17, "v");
+                  letsGo("two.png", 740, 0, 17, "v");
+                  letsGo("two.png", 800, 0, 17, "v");
+                  letsGo("two.png", 860, 0, 17, "v");
+
+                  //<----------------obstacles---------->
                   myGameArea.start();
                 }
 
@@ -135,6 +154,21 @@
                     this.x += this.speedX;
                     this.y += this.speedY;
                   }
+                  this.crashWith = function (otherobj) {
+                    var myleft = this.x;
+                    var myright = this.x + (this.width);
+                    var mytop = this.y;
+                    var mybottom = this.y + (this.height);
+                    var otherleft = otherobj.x;
+                    var otherright = otherobj.x + (otherobj.width);
+                    var othertop = otherobj.y;
+                    var otherbottom = otherobj.y + (otherobj.height);
+                    var crash = true;
+                    if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                      crash = false;
+                    }
+                    return crash;
+                  }
                 }
 
                 function updateGameArea() {
@@ -146,14 +180,24 @@
                     walls[i].newPos();
                     walls[i].update();
                   }
-                }
 
+                  for (var i = 0; i < walls.length; i++) {
+                    if(myGamePiece.crashWith(walls[i])){
+                      console.log("chocaste mrd");
+                    }
+                  }
+
+                }
+                var index = 0;
                 function move(dir) {
+                  msg = document.getElementById('msg').value;
+                  console.log(msg);
                   myGamePiece.image.src = "scripts/two.png";
-                  if (dir == "up") { myGamePiece.speedY = -5; }
-                  if (dir == "down") { myGamePiece.speedY = 5; }
-                  if (dir == "left") { myGamePiece.speedX = -5; }
-                  if (dir == "right") { myGamePiece.speedX = 5; }
+                  if (dir == "u" || msg[index] == "u") { myGamePiece.speedY = -5; }
+                  if (dir == "d" || msg[index] == "d") { myGamePiece.speedY = 5; }
+                  if (dir == "l" || msg[index] == "l") { myGamePiece.speedX = -5; }
+                  if (dir == "r" || msg[index] == "r") { myGamePiece.speedX = 5; }
+                  index += 1;
                 }
 
                 function clearmove() {
@@ -161,15 +205,15 @@
                   myGamePiece.speedX = 0;
                   myGamePiece.speedY = 0;
                 }
+
               </script>
 
         </div>
         <div style="text-align:center;width:480px;">
-          <button onmousedown="move('up')" onmouseup="clearmove()" ontouchstart="move('up')">UP</button><br><br>
-          <button onmousedown="move('left')" onmouseup="clearmove()" ontouchstart="move('left')">LEFT</button>
-          <button onmousedown="move('right')" onmouseup="clearmove()"
-            ontouchstart="move('right')">RIGHT</button><br><br>
-          <button onmousedown="move('down')" onmouseup="clearmove()" ontouchstart="move('down')">DOWN</button>
+          <button onmousedown="move('u')" onmouseup="clearmove()" ontouchstart="move('u')">UP</button><br><br>
+          <button onmousedown="move('l')" onmouseup="clearmove()" ontouchstart="move('l')">LEFT</button>
+          <button onmousedown="move('r')" onmouseup="clearmove()" ontouchstart="move('r')">RIGHT</button><br><br>
+          <button onmousedown="move('d')" onmouseup="clearmove()" ontouchstart="move('d')">DOWN</button>
         </div>
         <br>
         <tr>
@@ -179,13 +223,9 @@
         </tr>
         <p id="output"></p>
         <tr>
-          <td><button onmousedown="action()" onmouseup="clearmove()" ontouchstart="action()">DEC</button></td>
+          <td><button onmousedown="move()" onmouseup="clearmove()" ontouchstart="move()">DEC</button></td>
         </tr>
         <!--</body>-->
-
-
-
-
         <br>
         <input type="button" id="btnCompile" value="RUN" onclick="init();" />
         <div>
