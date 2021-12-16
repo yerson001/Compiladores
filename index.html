@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
-<div class='nowiki' val="">
+<div class='nowiki' val="" >
   <font color="purple">
 
-    <body bgcolor="white">
+    <body bgcolor="white" style="background-image: url('img/game.png');">
 
       <head>
         <title>index</title>
@@ -63,48 +63,68 @@
 
                 function letsGo(img, posx, posy, n, p) {
                   var it = 0;
+                  var sum = 20;
                   for (var i = 0; i < n; i++) {
                     if (p == "v") {
-                      elen = new component(30, 30, "scripts/" + img, posx, posy + it, "image");
+                      elen = new component(30+sum, 30+sum, "scripts/" + img, posx, posy + it, "image");
                     } else {
-                      elen = new component(30, 30, "scripts/" + img, posx + it, posy, "image");
+                      elen = new component(30+sum, 30+sum, "scripts/" + img, posx + it, posy, "image");
                     }
                     walls.push(elen);
-                    it += 30;
+                    it += 50;
                   }
                 }
 
                 function startGame() {
-                  myGamePiece = new component(30, 30, "img/one.png", 30, 30, "image");
+                  myGamePiece = new component(35, 40, "red", 75,70, );
+                  myGamePiece.moveAngle = 90;
 
-                  letsGo("two.png", 0, 0, 17, "v");
-                  letsGo("two.png", 1060, 0, 17, "v");
-                  letsGo("two.png", 0, 0, 36, "h");
-                  letsGo("two.png", 0, 470, 36, "h");
+                  letsGo("two.png", 0, 0, 9, "v");//el de abajo pero izquierda
+                  letsGo("two.png", 1050, 0, 9, "v");//el derecha abajo
+                  letsGo("two.png", 0, 0, 34, "h");//primero horizontal
+                  letsGo("two.png", 0, 450, 34, "h");//el de abajo
                   // <----------------end walls complete ---------------->
                   //letsGo("two.png",0,60,17,"h");
-                  letsGo("two.png", 0, 120, 17, "h");
-                  letsGo("two.png", 0, 180, 17, "h");
-                  letsGo("two.png", 0, 240, 17, "h");
-                  letsGo("two.png", 0, 320, 17, "h");
-                  letsGo("two.png", 0, 380, 17, "h");
-                  // <----------------obstacles---------->
-                  //letsGo("two.png",60,0,17,"v");
-                  letsGo("two.png", 120, 0, 17, "v");
-                  letsGo("two.png", 180, 0, 17, "v");
-                  letsGo("two.png", 240, 0, 17, "v");
-                  letsGo("two.png", 320, 0, 17, "v");
-                  letsGo("two.png", 380, 0, 17, "v");
-                  letsGo("two.png", 440, 0, 17, "v");
-                  letsGo("two.png", 500, 0, 17, "v");
-                  letsGo("two.png", 560, 0, 17, "v");
-                  letsGo("two.png", 620, 0, 17, "v");
-                  letsGo("two.png", 680, 0, 17, "v");
-                  letsGo("two.png", 740, 0, 17, "v");
-                  letsGo("two.png", 800, 0, 17, "v");
-                  letsGo("two.png", 860, 0, 17, "v");
+                  
+                  letsGo("two.png", 50,100, 3, "v");
 
-                  //<----------------obstacles---------->
+                  letsGo("two.png", 150,100, 2, "v");
+                  letsGo("two.png", 200,100, 2, "v");
+
+
+                  letsGo("two.png", 50, 250,4, "h");
+
+                  letsGo("two.png", 150, 350,2, "h");
+                  letsGo("two.png", 150, 400, 1, "h");
+
+                  letsGo("two.png", 300, 50, 15, "h");
+                  letsGo("two.png", 300, 100, 3, "h");
+                  letsGo("two.png", 600, 100, 7, "h");
+                  letsGo("two.png", 650, 150, 5, "h");
+                  letsGo("two.png", 700, 200, 3, "h");
+                  letsGo("two.png", 750, 250, 1, "h");
+
+                  letsGo("two.png", 300, 200, 4, "h");
+                  letsGo("two.png", 300, 250, 1, "h");
+
+                  letsGo("two.png", 300, 350, 4, "h");
+                  letsGo("two.png", 400, 300, 2, "h");
+
+                  letsGo("two.png", 550, 300, 3, "h");
+                  letsGo("two.png", 550, 250, 2, "h");
+                  letsGo("two.png", 550, 200, 1, "h");
+
+
+                  letsGo("two.png", 550, 400, 1, "h");
+                  letsGo("two.png", 650, 350, 1, "h");
+
+                  letsGo("two.png", 800, 400, 1, "h");
+                  letsGo("two.png", 750, 350, 5, "h");
+
+                  letsGo("two.png", 850, 300, 3, "h");
+                  letsGo("two.png", 900, 250, 2, "h");
+                  letsGo("two.png", 950, 200, 1, "h");
+
                   myGameArea.start();
                 }
 
@@ -127,33 +147,41 @@
                 }
 
                 function component(width, height, color, x, y, type) {
-                  this.type = type;
+
                   if (type == "image") {
                     this.image = new Image();
                     this.image.src = color;
                   }
+                  this.type = type;
                   this.width = width;
                   this.height = height;
-                  this.speedX = 0;
-                  this.speedY = 0;
+                  this.speed = 0;
+                  this.angle = 0;
+                  this.moveAngle = 0;
                   this.x = x;
                   this.y = y;
                   this.update = function () {
                     ctx = myGameArea.context;
                     if (type == "image") {
-                      ctx.drawImage(this.image,
-                        this.x,
-                        this.y,
-                        this.width, this.height);
-                    } else {
-                      ctx.fillStyle = color;
-                      ctx.fillRect(this.x, this.y, this.width, this.height);
-                    }
+                     ctx.drawImage(this.image,
+                       this.x,
+                       this.y,
+                       this.width, this.height);
+                   } else{
+                    ctx = myGameArea.context;
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+                    ctx.restore();}
                   }
                   this.newPos = function () {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
+                    this.angle += this.moveAngle * Math.PI / 180;
+                    this.x += this.speed * Math.sin(this.angle);
+                    this.y -= this.speed * Math.cos(this.angle);
                   }
+
                   this.crashWith = function (otherobj) {
                     var myleft = this.x;
                     var myright = this.x + (this.width);
@@ -174,65 +202,81 @@
                 function updateGameArea() {
                   myGameArea.clear();
                   myGamePiece.newPos();
+                  myGamePiece.moveAngle = 0;
+                  myGamePiece.speed = 0;
                   myGamePiece.update();
 
                   for (var i = 0; i < walls.length; i++) {
                     walls[i].newPos();
                     walls[i].update();
                   }
-
+                  /*
                   for (var i = 0; i < walls.length; i++) {
-                    if(myGamePiece.crashWith(walls[i])){
-                      console.log("chocaste mrd");
+                    if (myGamePiece.crashWith(walls[i])) {
+                      console.log("chocaste");
                     }
-                  }
+                  }*/
 
                 }
                 var index = 0;
                 function move(dir) {
                   msg = document.getElementById('msg').value;
                   console.log(msg);
-                  myGamePiece.image.src = "scripts/two.png";
-                  if (dir == "u" || msg[index] == "u") { myGamePiece.speedY = -5; }
-                  if (dir == "d" || msg[index] == "d") { myGamePiece.speedY = 5; }
-                  if (dir == "l" || msg[index] == "l") { myGamePiece.speedX = -5; }
-                  if (dir == "r" || msg[index] == "r") { myGamePiece.speedX = 5; }
+                  //myGamePiece.image.src = "scripts/two.png";
+                  //if (dir == "u" || msg[index] == "u") { myGamePiece.speedY = -5; }
+                  if (dir == "r" || msg[index] == "r") { myGamePiece.moveAngle = 30; }
+                  if (dir == "l" || msg[index] == "l") { myGamePiece.moveAngle = -30; }
+                  if (dir == "f" || msg[index] == "f") { myGamePiece.speed = 50; }
+                  if (dir == "b" || msg[index] == "b") { myGamePiece.speed = -50; }
                   index += 1;
                 }
 
                 function clearmove() {
-                  myGamePiece.image.src = "img/one.png";
-                  myGamePiece.speedX = 0;
-                  myGamePiece.speedY = 0;
+                  //myGamePiece.image.src = "img/one.png";
+                  //myGamePiece.speed = 0;
+                  //myGamePiece.speed = 0;
                 }
 
               </script>
 
         </div>
-        <div style="text-align:center;width:480px;">
-          <button onmousedown="move('u')" onmouseup="clearmove()" ontouchstart="move('u')">UP</button><br><br>
-          <button onmousedown="move('l')" onmouseup="clearmove()" ontouchstart="move('l')">LEFT</button>
-          <button onmousedown="move('r')" onmouseup="clearmove()" ontouchstart="move('r')">RIGHT</button><br><br>
-          <button onmousedown="move('d')" onmouseup="clearmove()" ontouchstart="move('d')">DOWN</button>
+        <div style="text-align:center;width:480px;" class="center">
+          <center>
+            <button onmousedown="move('l')" onmouseup="clearmove()" ontouchstart="move('l')">LEFT</button><br><br>
+            <button onmousedown="move('b')" onmouseup="clearmove()" ontouchstart="move('b')">BACK</button>
+            <button onmousedown="move('f')" onmouseup="clearmove()" ontouchstart="move('f')">FORDWARE</button><br><br>
+            <button onmousedown="move('r')" onmouseup="clearmove()" ontouchstart="move('r')">RIGHT</button>
+          </center>
         </div>
         <br>
         <tr>
-          <td>
-            <input type="text" value="" id="msg">
-          </td>
+          <center>
+            <td>
+              <input type="text" value="" id="msg">
+            </td>
+            <br>
         </tr>
-        <p id="output"></p>
+        <td>
+          <p id="plane">go</p>
+        </td>
+
         <tr>
           <td><button onmousedown="move()" onmouseup="clearmove()" ontouchstart="move()">DEC</button></td>
         </tr>
+        </center>
         <!--</body>-->
         <br>
-        <input type="button" id="btnCompile" value="RUN" onclick="init();" />
-        <div>
-          <br>
-          COMPILER OUTPUT HERE OK
-          <br>
-          <textarea id="Output" cols="45" rows="8"></textarea>
+        <center>
+          <input type="button" id="btnCompile" value="RUN" onclick="init();" />
+        </center>
+        <div class="center">
+          <center>
+            <br>
+            <h1>COMPILER OUTPUT HERE OK</h1>
+            <br>
+
+            <textarea id="Output" cols="45" rows="8" style="font-size: 20pt"></textarea>
+          </center>
         </div>
       </div>
       </center>
