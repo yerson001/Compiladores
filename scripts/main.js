@@ -10,7 +10,7 @@ var token_traducer = new TokenObject();
 var traducerCode = "";
 
 function tokenSorter() {
-  tokenArray = "fordware(10);right(90);left(90);int d = 0;FOR(i:5){if(d==i){fordware(5);left(90);}}fordware(3);right(90);";
+  tokenArray = "fordware(10);right(90);left(90);int d = 0;FOR(n:5){if(d==i){fordware(5);left(90);}}";
   sortedTokenArray = new Array();
   typeArray = new Array();
   var currtoken = 0;
@@ -425,23 +425,22 @@ function ListToken() {
 
   ToKens = new Array();
   ToKens = finalTokens();
-  var compiler = "";
 
   for (var i = 0; i < ToKens.length; ++i) {
-    console.log(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
+//      console.log(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
     //print(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
     traducerCode += token_traducer[i].Token;
-    if(token_traducer[i].Type=='RESERVED'){
-      console.log("TYPE->value "+  token_traducer[i].Token);
-      compiler+= token_traducer[i].Token;
+
+    if(token_traducer[i].Type=='RESERVED' && 
+    ( token_traducer[i].Token=='f' || 
+      token_traducer[i].Token=='l'||
+      token_traducer[i].Token=='r' )){
+      console.log("TYPE->value "+  token_traducer[i].Token+ToKens[i+2].Token);
     }
-
-
-
-//     print(i + " " + token_traducer[i].Token + " -> " + token_traducer[i].Type);
-    if(token_traducer[i].Type=='NUM'){
-      console.log("NUM->Value "+  ToKens[i].Token);
-      compiler+= ToKens[i].Token+'|';
+    if(ToKens[i].Type == 'RESERVED' &&
+      ToKens[i].Token=='FOR' 
+    ){
+      console.log("TYPE->value "+  ToKens[i].Token+ToKens[i+2].Token + ToKens[i+4].Token);
     }
   }
 //   print("SourceCode->: " + traducerCode);
@@ -451,8 +450,14 @@ function ListToken() {
 //   document.getElementById('msg').innerHTML = text;
 //   startUp(grammar, text);
 //   traducer();
+console.log(traducerCode);
 
   traducerCode = "";
+}
+
+
+function compile(str,num){
+ console.log(str+" "+num);
 }
 
 init();
