@@ -13,7 +13,7 @@ var grammar = {
   1: 'S->A',
   2: 'A->EB',
   3: 'A->ORJBU',
-  4: 'A->CZJBU',
+  4: 'A->CZQBX',
   5: 'A->YV=N;B',
   6: 'E->W(N);',
   7: 'W->L',
@@ -34,6 +34,8 @@ var grammar = {
   22: 'Z->(I==I)',
   23: 'J->{',
   24: 'U->}',
+  25: 'Q->[',
+  26: 'X->]',
 }
 
 
@@ -211,6 +213,14 @@ function tipo_token(i) {
   if (tokenArray[i] == "}") {
     return "rightCurlyBracket";
   }
+
+  if (tokenArray[i] == "[") {
+    return "leftCurlyBracket";
+  }
+
+  if (tokenArray[i] == "]") {
+    return "rightCurlyBracket";
+  }
   if (tokenArray[i] == "(") {
     return "leftDelim";
   }
@@ -312,7 +322,7 @@ function finalTokens() {
                     DETECTAR  INT
      *****************************************/
     if (temp == "int") {
-      console.log("detect-> int");
+      //console.log("detect-> int");
       temp = "";
       add("int", "RESERVED", "y");
       var secuense = "";
@@ -323,7 +333,7 @@ function finalTokens() {
         variable += secuense;
         j++;
       }
-      console.log("variable : " + variable.substring(0, variable.length - 1));
+      //console.log("variable : " + variable.substring(0, variable.length - 1));
       add(variable.substring(0, variable.length - 1), "ID", "v");
       var jump = variable.substring(0, variable.length - 1).length;
       i += jump;
@@ -333,7 +343,7 @@ function finalTokens() {
      *****************************************/
     else if (temp == "BEGIN") {
       linea += 1;
-      console.log("detect-> BEGIN and linea = " + linea);
+      //console.log("detect-> BEGIN and linea = " + linea);
       temp = "";
       add("BEGIN", "RESERVED", "1");
     }
@@ -341,7 +351,7 @@ function finalTokens() {
                 DETECTAR FORDWARE
      *****************************************/
     else if (temp == "fordware") {
-      console.log("detect-> fordware");
+      //console.log("detect-> fordware");
       temp = "";
       add("fordware", "RESERVED", "f");
     }
@@ -349,7 +359,7 @@ function finalTokens() {
                      DETECTAR N-->90
     *****************************************/
     else if (temp == "90") {
-      console.log("detect-> 90");
+      //console.log("detect-> 90");
       temp = "";
       add("90", "NUM", "n");
     }
@@ -357,7 +367,7 @@ function finalTokens() {
                     DETECTAR N->-90
     *****************************************/
     else if (temp == "-90") {
-      console.log("detect-> -90");
+      //console.log("detect-> -90");
       temp = "";
       add("-90", "NUM", "n");
     }
@@ -365,7 +375,7 @@ function finalTokens() {
                   DETECTAR SUM  -> +
     *****************************************/
     else if (temp == "+") {
-      console.log("detect-> SUM");
+      //console.log("detect-> SUM");
       temp = "";
       add("+", "OP", "+");
     }
@@ -373,7 +383,7 @@ function finalTokens() {
                      DETECTAR SUM  -> -
     *****************************************/
     else if (temp == "-") {
-      console.log("detect-> RES");
+      //console.log("detect-> RES");
       temp = "";
       add("-", "OP", "-");
     }
@@ -381,7 +391,7 @@ function finalTokens() {
                      DETECTAR  -> rigth
     *****************************************/
     else if (temp == "right") {
-      console.log("detect-> rigth");
+      //console.log("detect-> rigth");
       temp = "";
       add("rigth", "RESERVED", "r");
     }
@@ -389,7 +399,7 @@ function finalTokens() {
                      DETECTAR   -> left
     *****************************************/
     else if (temp == "left") {
-      console.log("detect-> left");
+      //console.log("detect-> left");
       temp = "";
       add("left", "RESERVED", "l");
     }
@@ -397,7 +407,7 @@ function finalTokens() {
                      DETECTAR SUM  -> FOR
     *****************************************/
     else if (temp == "FOR") {
-      console.log("detect-> FOR");
+      //console.log("detect-> FOR");
       temp = "";
       add("FOR", "RESERVED", "o");
 
@@ -407,12 +417,12 @@ function finalTokens() {
     *******************************************/
     //_-----------PARENTESIS EN NUMERO --------------------
     else if (temp == "(") {
-      console.log("detect-> ( " + tokens[i - 1].Token);
+      //console.log("detect-> ( " + tokens[i - 1].Token);
       temp = "";
       add("(", "DELIM", "(");
       // --------PRENTESIS EN FOR-----------
       if (tokens[i - 1].Token == "R") {
-        console.log("FOR--->detectado");
+        //console.log("FOR--->detectado");
         var secuense = "";
         var numero = "";
         var j = i + 1;
@@ -436,7 +446,7 @@ function finalTokens() {
           //console.log("avlirooooo__xxxxxxxxxxxxxxxxxxxx____"+value);
           add(value, "NUM", "n");
           if (!isNaN(value)) {
-            console.log("IS number" + numero.substring(0, numero.length - 1));
+            //console.log("IS number" + numero.substring(0, numero.length - 1));
             //add(numero.substring(0,numero.length-1),"NUM");
           } else {
             print("Error!! Valor FOR no valido: " + numero.substring(0, numero.length - 1));
@@ -461,12 +471,12 @@ function finalTokens() {
           j++;
         }
 
-        console.log("número : " + numero.substring(0, numero.length - 1));
+        //console.log("número : " + numero.substring(0, numero.length - 1));
 
 
 
         if (!isNaN(numero.substring(0, numero.length - 1))) {
-          console.log("IS number" + numero.substring(0, numero.length - 1));
+          //console.log("IS number" + numero.substring(0, numero.length - 1));
           //add(numero.substring(0,numero.length-1),"NUM");
         } else {
           print("Error!! Valor Int no valido: " + numero.substring(0, numero.length - 1));
@@ -508,36 +518,49 @@ function finalTokens() {
       }
     }
     else if (temp == ")") {
-      console.log("detect-> )");
+      //console.log("detect-> )");
       temp = "";
       add(")", "DELIM", ")");
     }
 
     // ----------------------end numeros en parentesis----------------
     else if (temp == "{") {
-      console.log("detect-> {");
+      //console.log("detect-> {");
       temp = "";
       add("{", "DELIM", "{");
     }
     else if (temp == "}") {
-      console.log("detect-> }");
+      //console.log("detect-> }");
       temp = "";
       add("}", "DELIM", "}");
     }
+
+//******************************************* */
+    else if (temp == "[") {
+      //console.log("detect-> {");
+      temp = "";
+      add("[", "DELIM", "[");
+    }
+    else if (temp == "]") {
+      //console.log("detect-> }");
+      temp = "";
+      add("]", "DELIM", "]");
+    }
+//************************************************ */
     else if (temp == "if") {
-      console.log("detect-> if");
+      //console.log("detect-> if");
       temp = "";
       add("if", "RESERVED", "c");
 
     }
     //-----------------------------------------------------------------
     else if (temp == "==") {
-      console.log("detect-> ==");
+      //console.log("detect-> ==");
       temp = "";
       add("==", "OP", "==");
     }
     else if (temp == "=") {
-      console.log("detect-> =");
+      //console.log("detect-> =");
       temp = "";
       add("=", "OP", "=");
       var secuense = "";
@@ -548,10 +571,10 @@ function finalTokens() {
         numero += secuense;
         j++;
       }
-      console.log("numero : " + numero.substring(0, numero.length - 1));
+      //console.log("numero : " + numero.substring(0, numero.length - 1));
 
       if (!isNaN(numero.substring(0, numero.length - 1))) {
-        console.log("IS number " + numero.substring(0, numero.length - 1));
+        //console.log("IS number " + numero.substring(0, numero.length - 1));
       } else {
         print("Error!! Valor Int no valido: " + numero.substring(0, numero.length - 1));
       }
@@ -561,12 +584,12 @@ function finalTokens() {
       i += jump;
     }
     else if (temp == ";") {
-      console.log("detect-> ;");
+     // console.log("detect-> ;");
       temp = "";
       add(";", "ENDLINE", ";");
     }
     else if (temp == "END") {
-      console.log("detect-> end");
+      //console.log("detect-> end");
       var newtoken = new TokenObject();
       newtoken.Token = "END";
       newtoken.Type = "RESERVED";
@@ -584,7 +607,7 @@ funcion pa verificar si es una variable de tipo estero o no
 
 function IsNumber(numero) {
   if (Number.isInteger(numero)) {
-    console.log('La variable es entera');
+    //console.log('La variable es entera');
     return true;
   }
   return false;
@@ -601,16 +624,33 @@ function ListToken() {
   print("\n ListToken\n");
   ToKens = new Array();
   ToKens = finalTokens();
+  var compiler = "";
+
   for (var i = 0; i < ToKens.length; ++i) {
-    console.log(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
+    //console.log(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
     //print(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
     traducerCode += token_traducer[i].Token;
+    if(token_traducer[i].Type=='RESERVED'){
+      console.log("TYPE->value "+  token_traducer[i].Token);
+      compiler+= token_traducer[i].Token;
+    }
+
+
+
+    print(i + " " + token_traducer[i].Token + " -> " + token_traducer[i].Type);
+    if(token_traducer[i].Type=='NUM'){
+      console.log("NUM->Value "+  ToKens[i].Token);
+      compiler+= ToKens[i].Token+'|';
+    }
   }
   print("SourceCode->: " + traducerCode);
   var text = traducerCode;
   document.getElementById('plane').innerHTML = text;
+  document.getElementById('plane2').innerHTML = compiler;
   document.getElementById('msg').innerHTML = text;
   startUp(grammar, text);
+  traducer();
+
   traducerCode = "";
 }
 /**************************************************************
@@ -619,6 +659,17 @@ function ListToken() {
 /****************************************************
 *******************  my_tree ************************
 *****************************************************/
+
+
+function traducer(str)
+{
+  if(str=='l'){
+    console.log("left---creo");
+  }
+}
+
+
+
 function Node(data) {
   this.data = data;
   this.children = [];
@@ -891,7 +942,9 @@ function startUp(grammar, text) {
   buildTerminals(grammar);
   parserTable = buildParserTable(grammar);
   solve(text);
-  tree.traverseBFS((node) => { console.log(node) })
+
+//  tree.traverseBFS((node) => { console.log(node) })
+
 }
 function buildNonTerminals(grammar) {
   for (var k in grammar) {
@@ -900,7 +953,7 @@ function buildNonTerminals(grammar) {
       nonTerminals.push(temp);
     }
   }
-  console.log("No Terminales: " + nonTerminals);
+  //console.log("No Terminales: " + nonTerminals);
 }
 
 function buildTerminals(grammar) {
@@ -912,7 +965,7 @@ function buildTerminals(grammar) {
       }
     }
   }
-  console.log("Terminales: " + terminals);
+  //console.log("Terminales: " + terminals);
 }
 
 function buildParserTable(grammar) {
@@ -972,11 +1025,12 @@ function solve(input) {
         if (top != remainInput[0]) {
           stack.pop();
           action.split('').reverse().map((t) => { stack.push(t) });
-          console.log("stack: ", stack);
-          console.log("Action: " + action + " size: " + action.length + " <--- Top: " + top);
+          //_______________________TREE:_______________________
+          //console.log("stack: ", stack);
+          //console.log("Action: " + action + " size: " + action.length + " <--- Top: " + top);
           for (var i = 0; i < action.length; i++) {
             tree.add(action[i], top);
-            console.log("FOR: " + action[i] + " <--- Top: " + top);
+            //console.log("FOR: " + action[i] + " <--- Top: " + top);
           }
         }
       }

@@ -8,9 +8,17 @@ function init() {
 }
 var token_traducer = new TokenObject();
 var traducerCode = "";
+var FinalInput = ""
 
 function tokenSorter() {
-  tokenArray = "fordware(10);right(90);left(90);int d = 0;FOR(n:5){if(d==i){fordware(5);left(90);}}";
+  //tokenArray = "fordware(4)";
+  //tokenArray = "fordware(2);fordware(2);";
+  //tokenArray = "fordware(2);left(90);fordware(3);";
+  //tokenArray = "fordware(2);left(90);fordware(3);";
+
+  //tokenArray = "fordware(4);right(90);fordware(4);left(180);fordware(2);right(90);fordware(3);";
+  //tokenArray = "fordware(1);FOR(n:4){fordware(3);right(90);}";
+  tokenArray = "FOR(n:4){fordware(3);right(90);}FOR(i:5){if(d==i){fordware(5);left(90);}}left(50);FOR(i:5){left(90);}fordware(8);";
   sortedTokenArray = new Array();
   typeArray = new Array();
   var currtoken = 0;
@@ -425,22 +433,31 @@ function ListToken() {
 
   ToKens = new Array();
   ToKens = finalTokens();
+  var it;
 
   for (var i = 0; i < ToKens.length; ++i) {
-//      console.log(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
+      console.log(i + "o " + ToKens[i].Token + " -> " + ToKens[i].Type);
+      //console.log(i + "t " + token_traducer[i].Token + " -> " + token_traducer[i].Type);
     //print(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
-    traducerCode += token_traducer[i].Token;
+      traducerCode += token_traducer[i].Token;
 
     if(token_traducer[i].Type=='RESERVED' && 
     ( token_traducer[i].Token=='f' || 
       token_traducer[i].Token=='l'||
       token_traducer[i].Token=='r' )){
-      console.log("TYPE->value "+  token_traducer[i].Token+ToKens[i+2].Token);
+      //console.log("TYPE->value "+  token_traducer[i].Token+ToKens[i+2].Token);
+      move_(token_traducer[i].Token,ToKens[i+2].Token);
     }
-    if(ToKens[i].Type == 'RESERVED' &&
-      ToKens[i].Token=='FOR' 
-    ){
-      console.log("TYPE->value "+  ToKens[i].Token+ToKens[i+2].Token + ToKens[i+4].Token);
+    if(ToKens[i].Type == 'RESERVED' &&ToKens[i].Token=='FOR'){
+      console.log("TYPE->value "+  ToKens[i].Token + " it->"+ToKens[i+2].Token + " n->"+ToKens[i+4].Token);
+      var startfor = i+6;
+      console.log("INICIO FOR: ",startfor);
+      console.log("TRADUCER CODE-->"+string_code());
+
+      var endfor = 0;
+      finalfor(startfor);
+      //for_move(ToKens[i+4].Token,ToKens[i+2].Token);
+      
     }
   }
 //   print("SourceCode->: " + traducerCode);
@@ -450,14 +467,55 @@ function ListToken() {
 //   document.getElementById('msg').innerHTML = text;
 //   startUp(grammar, text);
 //   traducer();
-console.log(traducerCode);
-
+  console.log(traducerCode);
+  console.log("FINALINPUT-> ",FinalInput);
   traducerCode = "";
 }
 
+function string_code()
+{
+  var str="";
+  var secuense="";
+  for (var i = 0; i < ToKens.length; ++i) {
+    str += token_traducer[i].Token;
+    console.log("STREM-->",token_traducer[i].Token);
+  }
+  return str;
+}
 
-function compile(str,num){
- console.log(str+" "+num);
+function finalfor(it){
+  /*for(var i=it; i<ToKens.length; i++){
+    if(ToKens[i].Type == 'NUM' &&
+       ToKens[i+1].Type == 'DELIM' && 
+       ToKens[i+2].Type == 'ENDLINE' && 
+       ToKens[i+3].Type == 'DELIM' &&
+      ToKens[i+4].Type == 'RESERVED'){
+      console.log("-----------------------PRIMER CASO---------------------");
+    }
+  }
+  */
+}
+
+function move_(str,num){
+  //console.log("move argument: "+str+" "+num," ");
+  if(str=='f'){
+     for(var i=0; i<num; i++){FinalInput+=str;}
+  }
+  if(str=='r' ||str=='l'){for(var i=0; i<num/30; i++){FinalInput+=str;}
+  }
+  return FinalInput;
+}
+
+function for_move(it,num){
+ //console.log("compiler argument: "+ num," ",it);
+
+ return FinalInput;
+}
+
+function FindIf(current,Endfor){
+  for(var i=current; i<Endfor; i++){
+
+  }
 }
 
 init();
