@@ -58,6 +58,20 @@ FOR(i:4){
   right(90);
 }
 ~~~
+## AZUL
+~~~
+fordware(4);
+right(90);
+fordware(2);
+left(90);
+fordware(6);
+FOR(i:4){
+  fordware(1);
+ right(90);
+  fordware(1);
+ left(90);
+}
+~~~
 
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
