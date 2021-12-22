@@ -27,6 +27,16 @@ FOR(i:4){
  right(90);
 }
 ~~~
+## 2da parte
+~~~
+fordware(4);
+right(90);
+fordware(2);
+left(90);
+fordware(4);
+~~~
+
+
 ## ZIGZAG
 ~~~
 fordware(3);
