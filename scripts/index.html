@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html>
+
+<div class='nowiki' val="">
+    <font color="purple">
+
+        <body bgcolor="white" style="background-image: url('img/game.png');">
+
+            <head>
+                <title>index</title>
+                <!--<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    -->
+                <!--<script src="scripts/game.js" charset="utf-8"></script>-->
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+                <link rel="stylesheet" type="text/css" href="css/styles.css">
+                <script src="scripts/utils.js"></script>
+                <script src="scripts/lexer.js"></script>
+            </head>
+            <style>
+                canvas {
+                    border: 4px solid red;
+                    background-color: #f1f1f1;
+                    margin: 20px;
+                    padding: 10px;
+                    background-image: url('img/you.jpg');
+                    /*display: flex;
+          align-items: center;*/
+                }
+            </style>
+
+            <div class="container-main" style="background-image: url('img/tabla.png');">
+                <!--           THIS PART IS TEXT CODE            -->
+                <center>
+                    <h1>SOURCE CODE</h1>
+                </center>
+                <main>
+                    <div class="editor" style="background-image: url('img/green.png');">
+                        <div class="line">
+                            <p>1</p>
+                        </div>
+                        <div class="text-cont">
+                            <textarea name="" id="Main_Code" cols="45" rows="100" onkeyup="update()"></textarea>
+                            <br>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+
+
+            <div class="container-main">
+
+                <div style="text-align:center;">
+                    <center>
+                        <h1>OUTPUT</h1>
+
+                        <body onload="startGame()">
+                            <script>
+                                /*
+                                                                                                                                                                                                var myGamePiece;
+                                                                                                                                                                                                let walls = [];
+                                                                                                                                                                                                var elen;
+
+                                                                                                                                                                                                function letsGo(img, posx, posy, n, p) {
+                                                                                                                                                                                                    var it = 0;
+                                                                                                                                                                                                    var sum = 20;
+                                                                                                                                                                                                    for (var i = 0; i < n; i++) {
+                                                                                                                                                                                                        if (p == "v") {
+                                                                                                                                                                                                            elen = new component(30 + sum, 30 + sum, "scripts/" + img, posx, posy + it, "image");
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            elen = new component(30 + sum, 30 + sum, "scripts/" + img, posx + it, posy, "image");
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        walls.push(elen);
+                                                                                                                                                                                                        it += 50;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                function startGame() {
+                                                                                                                                                                                                    myGamePiece = new component(35, 40, "red", 75, 70, );
+                                                                                                                                                                                                    myGamePiece.moveAngle = 90;
+
+                                                                                                                                                                                                    letsGo("two.png", 0, 0, 9, "v"); //el de abajo pero izquierda
+                                                                                                                                                                                                    letsGo("two.png", 1050, 0, 9, "v"); //el derecha abajo
+                                                                                                                                                                                                    letsGo("two.png", 0, 0, 34, "h"); //primero horizontal
+                                                                                                                                                                                                    letsGo("two.png", 0, 450, 34, "h"); //el de abajo
+                                                                                                                                                                                                    // <----------------end walls complete ---------------->
+                                                                                                                                                                                                    //letsGo("two.png",0,60,17,"h");
+
+                                                                                                                                                                                                    letsGo("two.png", 50, 100, 3, "v");
+
+                                                                                                                                                                                                    letsGo("two.png", 150, 100, 2, "v");
+                                                                                                                                                                                                    letsGo("two.png", 200, 100, 2, "v");
+
+
+                                                                                                                                                                                                    letsGo("two.png", 50, 250, 4, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 150, 350, 2, "h");
+                                                                                                                                                                                                    letsGo("two.png", 150, 400, 1, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 300, 50, 15, "h");
+                                                                                                                                                                                                    letsGo("two.png", 300, 100, 3, "h");
+                                                                                                                                                                                                    letsGo("two.png", 600, 100, 7, "h");
+                                                                                                                                                                                                    letsGo("two.png", 650, 150, 5, "h");
+                                                                                                                                                                                                    letsGo("two.png", 700, 200, 3, "h");
+                                                                                                                                                                                                    letsGo("two.png", 750, 250, 1, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 300, 200, 4, "h");
+                                                                                                                                                                                                    letsGo("two.png", 300, 250, 1, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 300, 350, 4, "h");
+                                                                                                                                                                                                    letsGo("two.png", 400, 300, 2, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 550, 300, 3, "h");
+                                                                                                                                                                                                    letsGo("two.png", 550, 250, 2, "h");
+                                                                                                                                                                                                    letsGo("two.png", 550, 200, 1, "h");
+
+
+                                                                                                                                                                                                    letsGo("two.png", 550, 400, 1, "h");
+                                                                                                                                                                                                    letsGo("two.png", 650, 350, 1, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 800, 400, 1, "h");
+                                                                                                                                                                                                    letsGo("two.png", 750, 350, 5, "h");
+
+                                                                                                                                                                                                    letsGo("two.png", 850, 300, 3, "h");
+                                                                                                                                                                                                    letsGo("two.png", 900, 250, 2, "h");
+                                                                                                                                                                                                    letsGo("two.png", 950, 200, 1, "h");
+
+                                                                                                                                                                                                    myGameArea.start();
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                var myGameArea = {
+                                                                                                                                                                                                    canvas: document.createElement("canvas"),
+                                                                                                                                                                                                    start: function() {
+                                                                                                                                                                                                        this.canvas.width = 1100;
+                                                                                                                                                                                                        this.canvas.height = 500;
+                                                                                                                                                                                                        this.context = this.canvas.getContext("2d");
+                                                                                                                                                                                                        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                                                                                                                                                                                                        this.frameNo = 0;
+                                                                                                                                                                                                        this.interval = setInterval(updateGameArea, 20);
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    clear: function() {
+                                                                                                                                                                                                        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    stop: function() {
+                                                                                                                                                                                                        clearInterval(this.interval);
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                function component(width, height, color, x, y, type) {
+
+                                                                                                                                                                                                    if (type == "image") {
+                                                                                                                                                                                                        this.image = new Image();
+                                                                                                                                                                                                        this.image.src = color;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    this.type = type;
+                                                                                                                                                                                                    this.width = width;
+                                                                                                                                                                                                    this.height = height;
+                                                                                                                                                                                                    this.speed = 0;
+                                                                                                                                                                                                    this.angle = 0;
+                                                                                                                                                                                                    this.moveAngle = 0;
+                                                                                                                                                                                                    this.x = x;
+                                                                                                                                                                                                    this.y = y;
+                                                                                                                                                                                                    this.update = function() {
+                                                                                                                                                                                                        ctx = myGameArea.context;
+                                                                                                                                                                                                        if (type == "image") {
+                                                                                                                                                                                                            ctx.drawImage(this.image,
+                                                                                                                                                                                                                this.x,
+                                                                                                                                                                                                                this.y,
+                                                                                                                                                                                                                this.width, this.height);
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            ctx = myGameArea.context;
+                                                                                                                                                                                                            ctx.save();
+                                                                                                                                                                                                            ctx.translate(this.x, this.y);
+                                                                                                                                                                                                            ctx.rotate(this.angle);
+                                                                                                                                                                                                            ctx.fillStyle = color;
+                                                                                                                                                                                                            ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+                                                                                                                                                                                                            ctx.restore();
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    this.newPos = function() {
+                                                                                                                                                                                                        this.angle += this.moveAngle * Math.PI / 180;
+                                                                                                                                                                                                        this.x += this.speed * Math.sin(this.angle);
+                                                                                                                                                                                                        this.y -= this.speed * Math.cos(this.angle);
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                    this.crashWith = function(otherobj) {
+                                                                                                                                                                                                        var myleft = this.x;
+                                                                                                                                                                                                        var myright = this.x + (this.width);
+                                                                                                                                                                                                        var mytop = this.y;
+                                                                                                                                                                                                        var mybottom = this.y + (this.height);
+                                                                                                                                                                                                        var otherleft = otherobj.x;
+                                                                                                                                                                                                        var otherright = otherobj.x + (otherobj.width);
+                                                                                                                                                                                                        var othertop = otherobj.y;
+                                                                                                                                                                                                        var otherbottom = otherobj.y + (otherobj.height);
+                                                                                                                                                                                                        var crash = true;
+                                                                                                                                                                                                        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                                                                                                                                                                                                            crash = false;
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        return crash;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                function updateGameArea() {
+                                                                                                                                                                                                    myGameArea.clear();
+                                                                                                                                                                                                    myGamePiece.newPos();
+                                                                                                                                                                                                    myGamePiece.moveAngle = 0;
+                                                                                                                                                                                                    myGamePiece.speed = 0;
+                                                                                                                                                                                                    myGamePiece.update();
+
+                                                                                                                                                                                                    for (var i = 0; i < walls.length; i++) {
+                                                                                                                                                                                                        walls[i].newPos();
+                                                                                                                                                                                                        walls[i].update();
+                                                                                                                                                                                                    }
+                                                                                                                                                                                              
+
+                                                                                                                                                                                                }
+                                                                                                                                                                                                var index = 0;
+
+                                                                                                                                                                                                function move(dir) {
+                                                                                                                                                                                                    //msg = document.getElementById('msg').value;
+                                                                                                                                                                                                    msg = document.getElementById('plane').value;
+                                                                                                                                                                                                    console.log("EN MOVER--->MAIN ", msg);
+                                                                                                                                                                                                    //myGamePiece.image.src = "scripts/two.png";
+                                                                                                                                                                                                    //if (dir == "u" || msg[index] == "u") { myGamePiece.speedY = -5; }
+
+                                                                                                                                                                                                    if (dir == "r" || msg[index] == "r") {
+                                                                                                                                                                                                        myGamePiece.moveAngle = 30;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    if (dir == "l" || msg[index] == "l") {
+                                                                                                                                                                                                        myGamePiece.moveAngle = -30;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    if (dir == "f" || msg[index] == "f") {
+                                                                                                                                                                                                        myGamePiece.speed = 50;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    if (dir == "b" || msg[index] == "b") {
+                                                                                                                                                                                                        myGamePiece.speed = -50;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    index += 1;
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                function clearmove() {
+                                                                                                                                                                                                    //myGamePiece.image.src = "img/one.png";
+                                                                                                                                                                                                    //myGamePiece.speed = 0;
+                                                                                                                                                                                                    //myGamePiece.speed = 0;
+                                                                                                                                                                                                } */
+                            </script>
+
+                </div>
+                <div style="text-align:center;width:480px;" class="center">
+                    <center>
+                        <button onmousedown="move('l')" onmouseup="clearmove()" ontouchstart="move('l')">LEFT</button><br><br>
+                        <button onmousedown="move('b')" onmouseup="clearmove()" ontouchstart="move('b')">BACK</button>
+                        <button onmousedown="move('f')" onmouseup="clearmove()" ontouchstart="move('f')">FORDWARE</button><br><br>
+                        <button onmousedown="move('r')" onmouseup="clearmove()" ontouchstart="move('r')">RIGHT</button>
+                    </center>
+                </div>
+                <br>
+                <tr>
+                    <center>
+                        <td>
+                            <input type="text" value="" id="msg">
+                        </td>
+                        <br>
+                </tr>
+                <td>
+                    <p id="plane">go</p>
+                </td>
+
+                <tr>
+                    <td><button onmousedown="move()" onmouseup="clearmove()" ontouchstart="move()">DEC</button></td>
+                </tr>
+                </center>
+                <!--</body>-->
+                <br>
+                <center>
+                    <input type="button" id="btnCompile" value="RUN" onclick="init();" />
+                </center>
+                <div class="center">
+                    <center>
+                        <br>
+                        <h1>COMPILER OUTPUT HERE OK</h1>
+                        <br>
+
+                        <textarea id="Output" cols="45" rows="8" style="font-size: 20pt"></textarea>
+                    </center>
+                </div>
+            </div>
+            </center>
+            </body>
+
+</html>
