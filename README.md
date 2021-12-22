@@ -66,11 +66,8 @@ A->O(I:N){B}
 A->C(I==I){B}
 A->YV=I;B
 E->W(N);
-W->L
-W->F
-W->R
-B->e
-B->A
+W->L|F|R
+B->e|A
 L->l
 F->f
 O->o
