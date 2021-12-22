@@ -169,35 +169,38 @@ function printSet(name, set) {
 }
 
 var grammar = {
-  1:'S->A',
-  2:'A->EB',
-  3:'A->ORJBU',
-  4:'A->CZJBU',
-  5:'A->YV=I;B',
-  6:'E->W(N);',
-  7:'W->L',
-  8:'W->F',
-  9:'W->R',
-  10:'B->ε',
-  11:'B->A',
-  12:'L->l',
-  13:'F->f',
-  14:'O->o',
-  15:'R->r',
-  16:'N->n',
-  17:'I->i',
-  18:'C->c',
-  19:'Y->y',
-  20:'V->v',
-  21:'R->(I:N)',
-  22:'Z->(I==I)',
-  23:'J->{',
-  24:'U->}',
+  1: 'S->A',
+  2: 'A->EB',
+  3: 'A->ORJBU',
+  4: 'A->CZTBM',
+  5: 'A->YV=N;B',
+  6: 'E->W(N);',
+  7: 'W->L',
+  8: 'W->F',
+  9: 'W->R',
+  10: 'B->ε',
+  11: 'B->A',
+  12: 'L->l',
+  13: 'F->f',
+  14: 'O->o',
+  15: 'R->r',
+  16: 'N->n',
+  17: 'I->i',
+  18: 'C->c',
+  19: 'Y->y',
+  20: 'V->v',
+  21: 'R->(I:N)',
+  22: 'Z->(I==I)',
+  23: 'J->{',
+  24: 'U->}',
+  25: 'T->[',
+  26: 'M->]',
 }
 var START_SYMBOL = 'S';
-var text = "l(n);";
+//var text = "l(n);";
 //var text = "o(i:n){l(n);}";
-//var text = "yv=i;f(n);l(n);o(i:n){f(n);l(n);}";
+//var text = "o(i:n){f(n);c(i==n)[r(n);]}l(n);f(n);"
+var text = "c(i==n)[r(n);]";
 
 startUp(grammar, text);
 
