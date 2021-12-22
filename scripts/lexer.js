@@ -615,16 +615,22 @@ al ejecuta el programa
  * 
  * *************************************************************/
 function ListToken() {
+  var FinalInput = "";
     print("\n ListToken\n");
     ToKens = new Array();
     ToKens = finalTokens();
     var compiler = "";
 
+    for (var m = 0; m < ToKens.length; m++) {traducerCode += token_traducer[m].Token;}
+    /*if(startUp(grammar, text)){
+      console.log("NICE----JOB");
+    }*/
+
     for (var i = 0; i < ToKens.length; i++) {
         console.log(i + " -> " + ToKens[i].Token + " -> " + ToKens[i].Type);
         //console.log(i + "t " + token_traducer[i].Token + " -> " + token_traducer[i].Type);
         //print(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
-        traducerCode += token_traducer[i].Token;
+        //traducerCode += token_traducer[i].Token;
 
         if (token_traducer[i].Type == 'RESERVED' &&
             (token_traducer[i].Token == 'f' ||
@@ -651,7 +657,6 @@ function ListToken() {
             /*
                         if (startif != -1) {
                             console.log("HAY UN IF EN EL CODIGO:: ", startif);
-
                         } else {*/
             var endfor = my_code.indexOf("}");
             console.log("CONDIGO FUENTE: ", my_code);
@@ -690,9 +695,8 @@ function ListToken() {
     document.getElementById('plane').innerHTML = FinalInput;
     //document.getElementById('plane2').innerHTML = FinalInput;
     document.getElementById('msg').innerHTML = text;
-    startUp(grammar, text);
-    traducer();
-
+    console.log("[[[[[[[  "+text+" ]]]]]]]]]");
+    console.log(startUp(grammar, text));
     traducerCode = "";
     console.log("FINALINPUT-> ", FinalInput);
 }
@@ -725,12 +729,6 @@ function move_(str, num) {
  *******************  my_tree ************************
  *****************************************************/
 
-
-function traducer(str) {
-    if (str == 'l') {
-        console.log("left---creo");
-    }
-}
 
 
 
@@ -987,7 +985,6 @@ function printSet(name, set) {
 
 /*
 var text = "f(n);r(n);l(n);yv=n;o(i:n){c(i==i){f(n);l(n);}}f(n);r(n);";
-
 startUp(grammar, text);
 */
 
@@ -1005,9 +1002,8 @@ function startUp(grammar, text) {
     buildNonTerminals(grammar);
     buildTerminals(grammar);
     parserTable = buildParserTable(grammar);
-    solve(text);
-
-    //  tree.traverseBFS((node) => { console.log(node) })
+    return solve(text);
+    //tree.traverseBFS((node) => { console.log(node) })
 
 }
 
@@ -1102,6 +1098,7 @@ function solve(input) {
         }
         if (action == "Accept!") {
             print("GRÁMATICA ACEPTADA");
+            return true;
             break;
         }
     } while (stack.length > 0);
@@ -1120,7 +1117,10 @@ function solve(input) {
  */
 var myGamePiece;
 let walls = [];
-var elen;
+var trofeo1;
+var trofeo2;
+var trofeo3;
+var trofeo4;
 
 function letsGo(img, posx, posy, n, p) {
     var it = 0;
@@ -1138,6 +1138,12 @@ function letsGo(img, posx, posy, n, p) {
 
 function startGame() {
     myGamePiece = new component(35, 40, "red", 75, 70, );
+
+    trofeo1 = new component(35, 40, "purple", 275, 73, );
+    trofeo2 = new component(40, 40, "yellow",126,226, );
+    trofeo3 = new component(40, 40, "orange", 478,175, );
+    trofeo4 = new component(40, 40, "blue", 780,322, );
+
     myGamePiece.moveAngle = 90;
 
     letsGo("two.png", 0, 0, 9, "v"); //el de abajo pero izquierda
@@ -1147,45 +1153,33 @@ function startGame() {
     // <----------------end walls complete ---------------->
     //letsGo("two.png",0,60,17,"h");
 
-    /*
-    letsGo("two.png", 50, 100, 3, "v");
-
-    letsGo("two.png", 150, 100, 2, "v");
+    
+    letsGo("pasto.jpg", 50, 100, 3, "v");
+    letsGo("pasto.jpg", 150, 100, 2, "v");
     letsGo("two.png", 200, 100, 2, "v");
-
-
-    letsGo("two.png", 50, 250, 4, "h");
-
-    letsGo("two.png", 150, 350, 2, "h");
-    letsGo("two.png", 150, 400, 1, "h");
-
-    letsGo("two.png", 300, 50, 15, "h");
-    letsGo("two.png", 300, 100, 3, "h");
-    letsGo("two.png", 600, 100, 7, "h");
-    letsGo("two.png", 650, 150, 5, "h");
-    letsGo("two.png", 700, 200, 3, "h");
-    letsGo("two.png", 750, 250, 1, "h");
-
-    letsGo("two.png", 300, 200, 4, "h");
-    letsGo("two.png", 300, 250, 1, "h");
-
+    letsGo("pasto.jpg", 50, 250, 4, "h");
+    letsGo("pasto.jpg", 150, 350, 2, "h");
+    letsGo("pasto.jpg", 150, 400, 1, "h");
+    letsGo("pasto.jpg", 300, 50, 15, "h");
+    letsGo("pasto.jpg", 300, 100, 3, "h");
+    letsGo("pasto.jpg", 600, 100, 7, "h");
+    letsGo("pasto.jpg", 650, 150, 5, "h");
+    letsGo("pasto.jpg", 700, 200, 3, "h");
+    letsGo("pasto.jpg", 750, 250, 1, "h");
+    letsGo("pasto.jpg", 300, 200, 4, "h");
+    letsGo("pasto.jpg", 300, 250, 1, "h");
     letsGo("two.png", 300, 350, 4, "h");
-    letsGo("two.png", 400, 300, 2, "h");
-
-    letsGo("two.png", 550, 300, 3, "h");
-    letsGo("two.png", 550, 250, 2, "h");
-    letsGo("two.png", 550, 200, 1, "h");
-
-
-    letsGo("two.png", 550, 400, 1, "h");
-    letsGo("two.png", 650, 350, 1, "h");
-
-    letsGo("two.png", 800, 400, 1, "h");
-    letsGo("two.png", 750, 350, 5, "h");
-
-    letsGo("two.png", 850, 300, 3, "h");
-    letsGo("two.png", 900, 250, 2, "h");
-    letsGo("two.png", 950, 200, 1, "h");*/
+    letsGo("pasto.jpg", 400, 300, 2, "h");
+    letsGo("pasto.jpg", 550, 300, 3, "h");
+    letsGo("pasto.jpg", 550, 250, 2, "h");
+    letsGo("pasto.jpg", 550, 200, 1, "h");
+    letsGo("pasto.jpg", 550, 400, 1, "h");
+    letsGo("pasto.jpg", 650, 350, 1, "h");
+    letsGo("pasto.jpg", 800, 400, 1, "h");
+    letsGo("pasto.jpg", 750, 350, 5, "h");
+    letsGo("pasto.jpg", 850, 300, 3, "h");
+    letsGo("pasto.jpg", 900, 250, 2, "h");
+    letsGo("pasto.jpg", 950, 200, 1, "h");
 
     myGameArea.start();
 }
@@ -1269,6 +1263,19 @@ function updateGameArea() {
     myGamePiece.speed = 0;
     myGamePiece.update();
 
+    trofeo1.newPos();
+    trofeo1.update();
+
+    trofeo2.newPos();
+    trofeo2.update();
+
+    trofeo3.newPos();
+    trofeo3.update();
+
+    trofeo4.newPos();
+    trofeo4.update();
+
+
     for (var i = 0; i < walls.length; i++) {
         walls[i].newPos();
         walls[i].update();
@@ -1279,6 +1286,18 @@ function updateGameArea() {
         console.log("chocaste");
       }
     }*/
+    if (myGamePiece.crashWith(trofeo1)){console.log("chocaste");
+      trofeo1.speed = 3000;
+    }
+    if (myGamePiece.crashWith(trofeo2)){console.log("chocaste");
+    trofeo2.speed = 3000;
+  }
+  if (myGamePiece.crashWith(trofeo3)){console.log("chocaste");
+  trofeo3.speed = 3000;
+}
+if (myGamePiece.crashWith(trofeo4)){console.log("chocaste");
+trofeo4.speed = 3000;
+}
 
 }
 var index = 0;
