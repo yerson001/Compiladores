@@ -20,6 +20,14 @@ FOR(i:5){
 fordware(3);
 right(90);
 ~~~
+## BUCLE FOR
+~~~
+fordware(1);
+FOR(i:4){
+ fordware(3);
+ right(90);
+}
+~~~
 
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
