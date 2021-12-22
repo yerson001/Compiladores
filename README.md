@@ -28,6 +28,18 @@ FOR(i:4){
  right(90);
 }
 ~~~
+## ZIGZAG
+~~~
+fordware(3);
+right(90);
+
+FOR(i:4){
+  fordware(1);
+  left(90);
+  fordware(1);
+  right(90);
+}
+~~~
 
 ## programa con errores
 ### Si no corrige los errores, el pograma no podrá continuar
