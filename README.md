@@ -35,6 +35,15 @@ fordware(2);
 left(90);
 fordware(4);
 ~~~
+## Para el tercer cuadradito
+~~~
+FOR(i:7){
+  fordware(1);
+  if(i==4)[right(90);]
+}
+left(90);
+fordware(4);
+~~~
 
 
 ## ZIGZAG
