@@ -7,6 +7,8 @@
 ## Click aqui [DEMO](https://yerson001.github.io/LPgame/)
 
 ## Click aqui [DOCUMENTO](https://docs.google.com/document/d/1EuZJ3zqq2_AnlcOfuZDhbMw45RhlynwMO6vKFlFqOqc/edit?usp=sharing)
+
+## Video [Demostración](https://www.youtube.com/watch?v=A3ttpZsZFYc&t=8s)
 ## programa sin errores
 ~~~
 fordware(10);
